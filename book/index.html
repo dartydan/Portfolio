@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="An interactive ebook version of Dan Morency's digital operations, IT leadership, and enterprise web strategy story."
+    />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <title>Dan Morency | Interactive Career Story</title>
+    <style>
+      :root {
+        --orange: #ff4f1f;
+        --orange-dark: #db3c11;
+        --navy: #263547;
+        --navy-deep: #172231;
+        --blue: #419bb2;
+        --blue-soft: #dff3f7;
+        --paper: #fffaf3;
+        --paper-edge: #f0e4d0;
+        --page: #f6efe4;
+        --ink: #263547;
+        --muted: #667383;
+        --rule: rgba(38, 53, 71, 0.16);
+        --shadow: 0 28px 80px rgba(38, 53, 71, 0.2);
+        --soft-shadow: 0 16px 42px rgba(38, 53, 71, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 16% 8%, rgba(255, 79, 31, 0.15), transparent 20rem),
+          radial-gradient(circle at 88% 20%, rgba(65, 155, 178, 0.2), transparent 24rem),
+          linear-gradient(135deg, #f9f3e9 0%, #edf5f7 52%, #fff8ef 100%);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(38, 53, 71, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(38, 53, 71, 0.04) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(to bottom, #000, transparent 78%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .book-shell {
+        width: min(1380px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 20px 0 34px;
+      }
+
+      .book-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.74);
+        box-shadow: var(--soft-shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        font-weight: 900;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: white;
+        background: linear-gradient(135deg, var(--navy), var(--blue));
+        letter-spacing: -0.04em;
+      }
+
+      .header-note {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 760;
+      }
+
+      .reader-layout {
+        display: grid;
+        grid-template-columns: minmax(250px, 0.34fr) minmax(0, 1fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .toc-panel,
+      .book-stage {
+        border: 1px solid rgba(255, 255, 255, 0.74);
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(20px);
+      }
+
+      .toc-panel {
+        position: sticky;
+        top: 18px;
+        min-height: calc(100vh - 72px);
+        padding: 22px;
+        border-radius: 30px;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--orange);
+        font-size: 0.76rem;
+        font-weight: 950;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        text-wrap: pretty;
+      }
+
+      .toc-panel h1 {
+        margin: 0;
+        color: var(--navy);
+        font-size: clamp(2rem, 3vw, 3.4rem);
+        line-height: 0.92;
+        letter-spacing: -0.07em;
+      }
+
+      .toc-intro {
+        margin: 16px 0 20px;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .toc-list {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .toc-button {
+        width: 100%;
+        min-height: 48px;
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 10px;
+        align-items: center;
+        padding: 9px 10px;
+        border: 1px solid transparent;
+        border-radius: 16px;
+        color: var(--ink);
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+        font: inherit;
+        transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+      }
+
+      .toc-button:hover,
+      .toc-button:focus-visible,
+      .toc-button.is-active {
+        border-color: rgba(65, 155, 178, 0.25);
+        background: rgba(223, 243, 247, 0.74);
+        outline: none;
+      }
+
+      .toc-button.is-active {
+        transform: translateX(4px);
+      }
+
+      .toc-number {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: white;
+        background: var(--navy);
+        font-size: 0.78rem;
+        font-weight: 950;
+      }
+
+      .toc-button.is-active .toc-number {
+        background: var(--orange);
+      }
+
+      .toc-title {
+        display: grid;
+        gap: 1px;
+      }
+
+      .toc-title strong {
+        color: var(--navy);
+        font-size: 0.93rem;
+        line-height: 1.15;
+      }
+
+      .toc-title span {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .toc-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .link-button,
+      .control-button {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 15px;
+        border: 0;
+        border-radius: 999px;
+        color: white;
+        background: var(--navy);
+        cursor: pointer;
+        text-decoration: none;
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 900;
+      }
+
+      .link-button.secondary,
+      .control-button.secondary {
+        color: var(--navy);
+        background: white;
+        border: 1px solid var(--rule);
+      }
+
+      .book-stage {
+        position: relative;
+        min-height: calc(100vh - 72px);
+        display: grid;
+        gap: 18px;
+        padding: clamp(16px, 3vw, 34px);
+        border-radius: 36px;
+        overflow: hidden;
+      }
+
+      .book-stage::before {
+        content: "";
+        position: absolute;
+        inset: 18px 50% 18px auto;
+        width: 2px;
+        background: linear-gradient(180deg, transparent, rgba(38, 53, 71, 0.15), transparent);
+      }
+
+      .book-frame {
+        position: relative;
+        min-height: 660px;
+        perspective: 2200px;
+      }
+
+      .book-page {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+        gap: clamp(22px, 4vw, 54px);
+        align-items: stretch;
+        padding: clamp(26px, 5vw, 58px);
+        border: 1px solid var(--paper-edge);
+        border-radius: 28px;
+        background:
+          linear-gradient(90deg, rgba(38, 53, 71, 0.05), transparent 5%, transparent 95%, rgba(38, 53, 71, 0.04)),
+          repeating-linear-gradient(0deg, rgba(38, 53, 71, 0.018), rgba(38, 53, 71, 0.018) 1px, transparent 1px, transparent 32px),
+          var(--paper);
+        box-shadow: 0 28px 80px rgba(38, 53, 71, 0.18);
+        opacity: 0;
+        pointer-events: none;
+        transform: rotateY(-18deg) translateX(38px) scale(0.98);
+        transform-origin: left center;
+        transition: transform 620ms cubic-bezier(0.2, 0.72, 0.18, 1), opacity 320ms ease;
+      }
+
+      .book-page.is-active {
+        z-index: 3;
+        opacity: 1;
+        pointer-events: auto;
+        transform: rotateY(0deg) translateX(0) scale(1);
+      }
+
+      .book-page.is-before {
+        transform: rotateY(18deg) translateX(-42px) scale(0.98);
+        transform-origin: right center;
+      }
+
+      .page-kicker {
+        margin: 0 0 18px;
+        color: var(--orange);
+        font-size: 0.78rem;
+        font-weight: 950;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .page-title {
+        max-width: 760px;
+        margin: 0;
+        color: var(--navy);
+        font-size: clamp(2.6rem, 5.4vw, 6.1rem);
+        line-height: 0.9;
+        letter-spacing: -0.08em;
+      }
+
+      .page-lead {
+        max-width: 720px;
+        margin: 24px 0 0;
+        color: var(--muted);
+        font-size: clamp(1.08rem, 1.6vw, 1.38rem);
+        line-height: 1.55;
+      }
+
+      .page-body {
+        display: grid;
+        align-content: center;
+        gap: 18px;
+      }
+
+      .page-body p {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(1rem, 1.25vw, 1.18rem);
+      }
+
+      .chapter-card {
+        display: grid;
+        gap: 12px;
+        padding: 18px;
+        border: 1px solid var(--rule);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.58);
+      }
+
+      .chapter-card strong {
+        color: var(--navy);
+        font-size: 1.04rem;
+      }
+
+      .chapter-card span,
+      .chapter-card p {
+        color: var(--muted);
+      }
+
+      .metric-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .metric-strip span {
+        min-height: 86px;
+        display: grid;
+        align-content: end;
+        padding: 14px;
+        border-radius: 18px;
+        color: white;
+        background: var(--navy);
+        font-size: 0.88rem;
+        font-weight: 880;
+        line-height: 1.2;
+      }
+
+      .metric-strip span:nth-child(2) {
+        background: var(--orange);
+      }
+
+      .metric-strip span:nth-child(3) {
+        background: var(--blue);
+      }
+
+      .pull-quote {
+        margin: 0;
+        padding: 22px;
+        border-left: 6px solid var(--orange);
+        border-radius: 0 22px 22px 0;
+        background: rgba(255, 79, 31, 0.08);
+        color: var(--navy);
+        font-size: clamp(1.3rem, 2.3vw, 2.5rem);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+      }
+
+      .book-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 0 2px;
+      }
+
+      .progress-area {
+        flex: 1;
+        display: grid;
+        gap: 8px;
+      }
+
+      .progress-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .progress-bar {
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(38, 53, 71, 0.12);
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--orange), var(--blue));
+        transition: width 420ms ease;
+      }
+
+      .control-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .control-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.44;
+      }
+
+      .mobile-toc {
+        display: none;
+      }
+
+      @media (max-width: 980px) {
+        .reader-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .toc-panel {
+          position: static;
+          min-height: 0;
+        }
+
+        .toc-list {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .book-stage::before {
+          display: none;
+        }
+
+        .book-page {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+
+        .book-frame {
+          min-height: 820px;
+        }
+      }
+
+      @media (max-width: 680px) {
+        body {
+          background: white;
+        }
+
+        body::before {
+          display: none;
+        }
+
+        .book-shell {
+          width: min(100% - 18px, 1380px);
+          padding-top: 10px;
+        }
+
+        .book-header {
+          align-items: flex-start;
+          border-radius: 24px;
+          flex-direction: column;
+        }
+
+        .header-note {
+          font-size: 0.82rem;
+        }
+
+        .toc-panel {
+          display: none;
+        }
+
+        .mobile-toc {
+          display: block;
+        }
+
+        .mobile-toc summary {
+          min-height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 16px;
+          border-radius: 999px;
+          color: white;
+          background: var(--navy);
+          cursor: pointer;
+          font-weight: 900;
+          list-style: none;
+        }
+
+        .mobile-toc summary::-webkit-details-marker {
+          display: none;
+        }
+
+        .mobile-toc .toc-list {
+          grid-template-columns: 1fr;
+          gap: 6px;
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid var(--rule);
+          border-radius: 20px;
+          background: white;
+        }
+
+        .book-stage {
+          min-height: 0;
+          padding: 14px;
+          border-radius: 26px;
+        }
+
+        .book-frame {
+          min-height: 820px;
+        }
+
+        .book-page {
+          padding: 24px 20px;
+          border-radius: 22px;
+          transform: translateX(22px);
+        }
+
+        .book-page.is-before {
+          transform: translateX(-22px);
+        }
+
+        .page-title {
+          font-size: clamp(2.35rem, 13vw, 4.1rem);
+        }
+
+        .metric-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .book-controls {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .control-group {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 430px) {
+        .book-frame {
+          min-height: 930px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="book-shell">
+      <header class="book-header">
+        <a class="brand" href="../" aria-label="Return to Dan Morency portfolio home">
+          <span class="brand-mark">DM</span>
+          <span>Dan Morency</span>
+        </a>
+        <p class="header-note">Interactive career story prototype — not linked from the main portfolio yet.</p>
+      </header>
+
+      <div class="reader-layout">
+        <aside class="toc-panel" aria-label="Table of contents">
+          <p class="eyebrow">Interactive Ebook</p>
+          <h1>The Story Behind the Resume</h1>
+          <p class="toc-intro">A page-by-page career narrative built around digital operations, IT leadership readiness, enterprise web systems, and practical AI workflows.</p>
+          <ol class="toc-list" id="tocList"></ol>
+          <div class="toc-actions">
+            <a class="link-button" href="../assets/Dan-Morency-Resume.pdf" download>Resume PDF</a>
+            <a class="link-button secondary" href="mailto:danmorency@gmail.com">Email</a>
+          </div>
+        </aside>
+
+        <main class="book-stage" aria-live="polite">
+          <details class="mobile-toc">
+            <summary>Table of Contents</summary>
+            <ol class="toc-list" id="mobileTocList"></ol>
+          </details>
+
+          <section class="book-frame" aria-label="Career story pages">
+            <article class="book-page is-active" data-title="Cover" data-subtitle="Digital operations to IT leadership">
+              <div>
+                <p class="page-kicker">Cover</p>
+                <h2 class="page-title">A career built by making complex digital systems work better.</h2>
+                <p class="page-lead">This is the longer story behind the resume: how digital execution became operating structure, how marketing systems became enterprise web governance, and how that path now points toward IT leadership.</p>
+              </div>
+              <div class="page-body">
+                <blockquote class="pull-quote">The through-line is not a channel. It is the ability to clarify the system, align the people, and improve the outcome.</blockquote>
+                <div class="metric-strip" aria-label="Career highlights">
+                  <span>30,000+ web pages supported</span>
+                  <span>$11M → $31M growth supported</span>
+                  <span>200+ distributed editors enabled</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-page" data-title="Foundation" data-subtitle="2008–2018">
+              <div>
+                <p class="page-kicker">Chapter 01 • 2008–2018</p>
+                <h2 class="page-title">Learning how digital systems perform in the real world.</h2>
+                <p class="page-lead">The foundation came from SEO, advertising, content, analytics, lead generation, and hands-on digital execution.</p>
+              </div>
+              <div class="page-body">
+                <p>Early roles at Slingshot SEO, PayK12, The Sojourn, and Ray Skillman Auto Group built the technical and operational base: search strategy, advertising, web content, audience behavior, reporting, and digital execution.</p>
+                <div class="chapter-card">
+                  <strong>Leadership layer added</strong>
+                  <p>Strategy grounded in how people actually find, use, trust, and act on digital experiences.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-page" data-title="Brand Build" data-subtitle="Glitch Energy">
+              <div>
+                <p class="page-kicker">Chapter 02 • Jan 2018 – June 2021</p>
+                <h2 class="page-title">Building a digital growth engine from the ground up.</h2>
+                <p class="page-lead">At Glitch Energy, the work grew from digital execution into cross-functional brand, audience, partnership, and content operations leadership.</p>
+              </div>
+              <div class="page-body">
+                <p>Helped launch and grow Glitch Energy from inception into a revenue-generating brand by building digital strategy, audience growth, partnership approaches, email marketing, and integrated content operations.</p>
+                <div class="chapter-card">
+                  <strong>What changed</strong>
+                  <span>Influencer partnerships, YouTube personalities, NBA athletes, campaign operations, creative workflows, and audience strategy became one connected system.</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-page" data-title="Operating Model" data-subtitle="Acculevel">
+              <div>
+                <p class="page-kicker">Chapter 03 • June 2021 – Feb 2022</p>
+                <h2 class="page-title">Turning separate functions into a scalable operating model.</h2>
+                <p class="page-lead">At Acculevel, the story became department building, workflow design, vendor transition, analytics-informed decision support, and cross-functional execution at speed.</p>
+              </div>
+              <div class="page-body">
+                <p>Built scalable growth operations across video, content, advertising, CRM, and business analytics while aligning marketing execution with sales, operations, and leadership priorities.</p>
+                <div class="metric-strip">
+                  <span>$3M+ annual digital ad spend managed</span>
+                  <span>$11M → $31M revenue growth supported</span>
+                  <span>Advertising brought in-house</span>
+                </div>
+                <div class="chapter-card">
+                  <strong>Leadership layer added</strong>
+                  <p>Operating model design, business analytics support, delivery workflows, and practical decision support for leadership.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-page" data-title="Enterprise Web" data-subtitle="Ball State University">
+              <div>
+                <p class="page-kicker">Chapter 04 • May 2022 – Present</p>
+                <h2 class="page-title">Leading digital experience work at enterprise scale.</h2>
+                <p class="page-lead">At Ball State University, the scope expanded into enterprise web operations, governance, accessibility, stakeholder enablement, CMS support, UX, SEO, and AI-assisted workflows.</p>
+              </div>
+              <div class="page-body">
+                <p>Lead web operations and digital experience strategy across a large university ecosystem, connecting UX, accessibility, SEO, analytics-informed insights, CMS governance, stakeholder enablement, and practical AI workflow adoption.</p>
+                <div class="metric-strip">
+                  <span>30,000+ web pages supported</span>
+                  <span>200+ distributed web editors enabled</span>
+                  <span>WCAG initiative completed in under 3 months</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-page" data-title="Leadership Value" data-subtitle="What this means next">
+              <div>
+                <p class="page-kicker">Chapter 05 • The Next Organization</p>
+                <h2 class="page-title">The value is translating ambiguity into operating structure.</h2>
+                <p class="page-lead">The next step is IT leadership work where digital strategy, web operations, change management, governance, and AI-enabled workflows create meaningful organizational impact.</p>
+              </div>
+              <div class="page-body">
+                <div class="chapter-card">
+                  <strong>01 — Structure</strong>
+                  <p>Clarify needs, define priorities, organize workflows, and turn scattered digital requests into systems teams can execute.</p>
+                </div>
+                <div class="chapter-card">
+                  <strong>02 — Change</strong>
+                  <p>Train stakeholders, build governance, support adoption, and make standards easier for distributed teams to follow.</p>
+                </div>
+                <div class="chapter-card">
+                  <strong>03 — Leverage</strong>
+                  <p>Apply AI-assisted workflows to improve content operations, QA, delivery speed, and reporting support without losing human judgment.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-page" data-title="Credentials" data-subtitle="Learning aligned to leadership">
+              <div>
+                <p class="page-kicker">Back Matter</p>
+                <h2 class="page-title">Continuous learning aligned with technology, UX, AI, and leadership.</h2>
+                <p class="page-lead">The story continues through MBA coursework, IT leadership positioning, and practical certifications that support digital transformation work.</p>
+              </div>
+              <div class="page-body">
+                <div class="chapter-card">
+                  <strong>Education</strong>
+                  <span>MBA / Graduate Certificate coursework at Ball State University, in progress. Bachelor of Arts degrees in Marketing and Business Administration from Indiana Wesleyan University.</span>
+                </div>
+                <div class="chapter-card">
+                  <strong>Certifications & development</strong>
+                  <span>Google AI Certification, LEAD at Ball State University, Google UX Design, Responsive Web Design, Google Ads, YouTube Ads, and Meta/Facebook Advertising.</span>
+                </div>
+                <div class="toc-actions">
+                  <a class="link-button" href="../assets/Dan-Morency-Resume.pdf" download>Download Resume</a>
+                  <a class="link-button secondary" href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer">LinkedIn</a>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <nav class="book-controls" aria-label="Book controls">
+            <div class="progress-area">
+              <div class="progress-label">
+                <span id="pageLabel">Page 1 of 7</span>
+                <span id="chapterLabel">Cover</span>
+              </div>
+              <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+            <div class="control-group">
+              <button class="control-button secondary" type="button" id="prevPage">Previous</button>
+              <button class="control-button" type="button" id="nextPage">Next Page</button>
+            </div>
+          </nav>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const pages = [...document.querySelectorAll('.book-page')];
+      const tocList = document.getElementById('tocList');
+      const mobileTocList = document.getElementById('mobileTocList');
+      const prevButton = document.getElementById('prevPage');
+      const nextButton = document.getElementById('nextPage');
+      const pageLabel = document.getElementById('pageLabel');
+      const chapterLabel = document.getElementById('chapterLabel');
+      const progressFill = document.getElementById('progressFill');
+      const storageKey = 'danMorencyBookPage';
+      let currentPage = Number(localStorage.getItem(storageKey) || 0);
+
+      if (!Number.isInteger(currentPage) || currentPage < 0 || currentPage >= pages.length) {
+        currentPage = 0;
+      }
+
+      function pad(number) {
+        return String(number).padStart(2, '0');
+      }
+
+      function buildToc(target) {
+        target.innerHTML = pages.map((page, index) => `
+          <li>
+            <button class="toc-button" type="button" data-page="${index}">
+              <span class="toc-number">${pad(index + 1)}</span>
+              <span class="toc-title">
+                <strong>${page.dataset.title}</strong>
+                <span>${page.dataset.subtitle}</span>
+              </span>
+            </button>
+          </li>
+        `).join('');
+      }
+
+      buildToc(tocList);
+      buildToc(mobileTocList);
+
+      const tocButtons = [...document.querySelectorAll('.toc-button')];
+
+      function setPage(index) {
+        currentPage = Math.max(0, Math.min(index, pages.length - 1));
+        pages.forEach((page, pageIndex) => {
+          page.classList.toggle('is-active', pageIndex === currentPage);
+          page.classList.toggle('is-before', pageIndex < currentPage);
+        });
+
+        tocButtons.forEach((button) => {
+          const isActive = Number(button.dataset.page) === currentPage;
+          button.classList.toggle('is-active', isActive);
+          if (isActive) {
+            button.setAttribute('aria-current', 'page');
+          } else {
+            button.removeAttribute('aria-current');
+          }
+        });
+
+        prevButton.disabled = currentPage === 0;
+        nextButton.disabled = currentPage === pages.length - 1;
+        nextButton.textContent = currentPage === pages.length - 1 ? 'Finished' : 'Next Page';
+        pageLabel.textContent = `Page ${currentPage + 1} of ${pages.length}`;
+        chapterLabel.textContent = pages[currentPage].dataset.title;
+        progressFill.style.width = `${((currentPage + 1) / pages.length) * 100}%`;
+        localStorage.setItem(storageKey, currentPage);
+      }
+
+      tocButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setPage(Number(button.dataset.page));
+          document.querySelector('.mobile-toc')?.removeAttribute('open');
+        });
+      });
+
+      prevButton.addEventListener('click', () => setPage(currentPage - 1));
+      nextButton.addEventListener('click', () => setPage(currentPage + 1));
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') setPage(currentPage - 1);
+        if (event.key === 'ArrowRight') setPage(currentPage + 1);
+      });
+
+      let touchStartX = 0;
+      document.querySelector('.book-frame').addEventListener('touchstart', (event) => {
+        touchStartX = event.changedTouches[0].clientX;
+      }, { passive: true });
+
+      document.querySelector('.book-frame').addEventListener('touchend', (event) => {
+        const touchEndX = event.changedTouches[0].clientX;
+        const distance = touchEndX - touchStartX;
+        if (Math.abs(distance) < 56) return;
+        setPage(currentPage + (distance < 0 ? 1 : -1));
+      }, { passive: true });
+
+      setPage(currentPage);
+    </script>
+  </body>
+</html>
