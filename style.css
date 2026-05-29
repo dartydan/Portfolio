@@ -580,6 +580,7 @@ h2 {
 
 .role-card {
   overflow: hidden;
+  border-top: 6px solid var(--orange);
 }
 
 .role-summary {
