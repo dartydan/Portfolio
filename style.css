@@ -584,11 +584,11 @@ h2 {
 }
 
 .story-arc .role-card:nth-of-type(2) {
-  border-top-color: var(--blue);
+  border-top-color: var(--navy);
 }
 
 .story-arc .role-card:nth-of-type(3) {
-  border-top-color: var(--navy);
+  border-top-color: var(--orange);
 }
 
 .role-summary {
@@ -658,7 +658,7 @@ h2 {
 }
 
 .role-card.featured-role {
-  border-top: 6px solid var(--navy);
+  border-top: 6px solid var(--orange);
 }
 
 .role-meta {
