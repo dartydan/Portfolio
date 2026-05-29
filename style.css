@@ -431,30 +431,37 @@ h2 {
 }
 
 .chip-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .chip-grid span {
-  min-height: 112px;
-  display: flex;
-  align-items: flex-end;
-  padding: 18px;
-  color: var(--navy);
+  min-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 15px;
+  border: 0;
+  border-radius: 999px;
+  color: white;
+  background: var(--navy);
+  font-size: 0.88rem;
   font-weight: 850;
+  line-height: 1.1;
+  box-shadow: 0 8px 18px rgba(38, 53, 71, 0.12);
 }
 
 .chip-grid span:nth-child(3n + 1) {
-  border-top: 5px solid var(--orange);
+  background: var(--orange);
 }
 
 .chip-grid span:nth-child(3n + 2) {
-  border-top: 5px solid var(--blue);
+  background: var(--blue);
 }
 
 .chip-grid span:nth-child(3n) {
-  border-top: 5px solid var(--navy);
+  background: var(--navy);
 }
 
 .resume-card {
