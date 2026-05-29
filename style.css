@@ -432,10 +432,12 @@ h2 {
 
 .chip-grid {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 12px;
   overflow: hidden;
   padding: 4px 0;
   mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
 
 .chip-row {
@@ -445,9 +447,11 @@ h2 {
 .chip-track {
   --scroll-duration: 34s;
   display: flex;
+  flex-wrap: nowrap;
   width: max-content;
   gap: 10px;
   animation: chip-scroll-left var(--scroll-duration) linear infinite;
+  will-change: transform;
 }
 
 .chip-row:nth-child(2) .chip-track {
@@ -461,6 +465,7 @@ h2 {
 
 .chip-set {
   display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
 }
 
@@ -955,7 +960,6 @@ h2 {
   }
 
   .panel-grid,
-  .chip-grid,
   .proof-grid,
   .leadership-grid {
     grid-template-columns: 1fr;
