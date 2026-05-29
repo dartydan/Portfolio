@@ -858,6 +858,14 @@ h2 {
 }
 
 @media (max-width: 680px) {
+  body {
+    background: white;
+  }
+
+  body::before {
+    display: none;
+  }
+
   .page-shell {
     width: min(100% - 20px, var(--max));
   }
