@@ -517,10 +517,69 @@ h2 {
 }
 
 .role-card {
+  overflow: hidden;
+}
+
+.role-summary {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(190px, 0.38fr) minmax(0, 1fr);
   gap: 26px;
-  padding: clamp(22px, 4vw, 34px);
+  padding: clamp(22px, 4vw, 34px) clamp(64px, 8vw, 82px) clamp(22px, 4vw, 34px) clamp(22px, 4vw, 34px);
+  cursor: pointer;
+  list-style: none;
+}
+
+.role-summary::-webkit-details-marker {
+  display: none;
+}
+
+.role-summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: clamp(22px, 4vw, 34px);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--navy);
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.role-card[open] .role-summary::after {
+  content: "−";
+  background: var(--blue);
+}
+
+.role-summary:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: -6px;
+}
+
+.role-details {
+  display: grid;
+  gap: 16px;
+  padding: 0 clamp(22px, 4vw, 34px) clamp(22px, 4vw, 34px);
+}
+
+.role-details p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.04rem;
+}
+
+.role-details .action-list {
+  margin: 0;
+}
+
+.role-details .story-note {
+  margin: 0;
 }
 
 .role-card.current {
@@ -726,7 +785,7 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .role-card {
+  .role-summary {
     grid-template-columns: 1fr;
     gap: 18px;
   }
