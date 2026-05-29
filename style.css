@@ -431,8 +431,36 @@ h2 {
 }
 
 .chip-grid {
+  display: grid;
+  gap: 12px;
+  overflow: hidden;
+  padding: 4px 0;
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+.chip-row {
+  overflow: hidden;
+}
+
+.chip-track {
+  --scroll-duration: 34s;
   display: flex;
-  flex-wrap: wrap;
+  width: max-content;
+  gap: 10px;
+  animation: chip-scroll-left var(--scroll-duration) linear infinite;
+}
+
+.chip-row:nth-child(2) .chip-track {
+  --scroll-duration: 40s;
+  animation-name: chip-scroll-right;
+}
+
+.chip-row:nth-child(3) .chip-track {
+  --scroll-duration: 46s;
+}
+
+.chip-set {
+  display: flex;
   gap: 10px;
 }
 
@@ -441,6 +469,7 @@ h2 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
   padding: 11px 15px;
   border: 0;
   border-radius: 999px;
@@ -449,6 +478,7 @@ h2 {
   font-size: 0.88rem;
   font-weight: 850;
   line-height: 1.1;
+  white-space: nowrap;
   box-shadow: 0 8px 18px rgba(38, 53, 71, 0.12);
 }
 
@@ -462,6 +492,26 @@ h2 {
 
 .chip-grid span:nth-child(3n) {
   background: var(--navy);
+}
+
+@keyframes chip-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 5px));
+  }
+}
+
+@keyframes chip-scroll-right {
+  from {
+    transform: translateX(calc(-50% - 5px));
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 .resume-card {
@@ -800,10 +850,6 @@ h2 {
   .hero-copy {
     min-height: 520px;
   }
-
-  .chip-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 680px) {
@@ -927,5 +973,10 @@ h2 {
   *::after {
     scroll-behavior: auto !important;
     transition: none !important;
+  }
+
+  .chip-track {
+    animation: none;
+    transform: none;
   }
 }
