@@ -3,379 +3,716 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Dan Morency is a business, digital operations, and marketing leader focused on enterprise web systems, UX, accessibility, financial discipline, stakeholder enablement, and AI-enabled workflows."
-    />
-    <link rel="stylesheet" href="style.css?v=20260529-vp-director-dark" />
+    <meta name="description" content="Dan Morency is a business, digital operations, and marketing leader. Explore his career as an interactive story game." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css?v=game-v1" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <title>Dan Morency | Business Leadership, Digital Operations & Web Strategy</title>
+    <title>Dan Morency | Portfolio Quest</title>
   </head>
   <body>
-    <div class="page-shell">
-      <header class="site-header">
-        <a class="brand" href="#top" aria-label="Dan Morency home">
-          <span>DM</span>
-          <strong>Dan Morency</strong>
-        </a>
-        <nav class="desktop-nav" aria-label="Main navigation">
-          <a href="#story">Story</a>
-          <a href="#proof">Proof</a>
-          <a href="#experience">Experience</a>
-          <a href="#leadership">Leadership</a>
-          <a href="#credentials">Credentials</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <details class="mobile-menu">
-          <summary aria-label="Open main navigation">Menu</summary>
-          <nav aria-label="Mobile navigation">
-            <a href="#story">Story</a>
-            <a href="#proof">Proof</a>
-            <a href="#experience">Experience</a>
-            <a href="#leadership">Leadership</a>
-            <a href="#credentials">Credentials</a>
-            <a href="#contact">Contact</a>
+
+    <!-- ACHIEVEMENT TOAST -->
+    <div id="achievement-toast" class="achievement-toast" aria-live="polite" aria-atomic="true">
+      <div class="toast-icon">🏆</div>
+      <div class="toast-content">
+        <div class="toast-label">ACHIEVEMENT UNLOCKED!</div>
+        <div class="toast-name" id="toast-name">Enterprise Scale</div>
+      </div>
+    </div>
+
+    <!-- GAME HUD (shown after PLAY) -->
+    <div id="game-hud" class="game-hud" aria-label="Game status bar">
+      <a href="#worldmap" class="hud-map-btn" aria-label="Go to world map">🗺 MAP</a>
+      <div class="hud-xp">
+        <span class="hud-xp-label">XP</span>
+        <div class="xp-track" role="progressbar" aria-label="Experience points" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="xp-fill" id="xp-fill"></div>
+        </div>
+        <span class="xp-value" id="xp-value">0 XP</span>
+      </div>
+      <div class="hud-right">
+        <span class="hud-badges" aria-label="Achievements collected">🏅 <span id="achievement-count">0</span></span>
+        <span class="hud-level" aria-label="Current level">LV <span id="player-level">1</span></span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- TITLE SCREEN                          -->
+    <!-- ══════════════════════════════════════ -->
+    <div id="screen-title" class="screen-title screen-active" role="main" aria-labelledby="game-title">
+      <div class="title-grid-bg" aria-hidden="true"></div>
+      <div class="title-particles" id="title-particles" aria-hidden="true"></div>
+
+      <div class="title-content">
+        <p class="title-pre">★ PORTFOLIO QUEST ★</p>
+        <h1 class="title-name" id="game-title">DAN<br>MORENCY</h1>
+        <p class="title-sub">Business Leadership RPG</p>
+
+        <div class="title-stats" aria-label="Career stats">
+          <div class="title-stat-chip">
+            <span class="stat-big">18</span>
+            <span class="stat-small">YRS XP</span>
+          </div>
+          <div class="title-stat-chip featured">
+            <span class="stat-big">30K+</span>
+            <span class="stat-small">PAGES MGD</span>
+          </div>
+          <div class="title-stat-chip">
+            <span class="stat-big">LV 18</span>
+            <span class="stat-small">LEADER</span>
+          </div>
+        </div>
+
+        <div class="title-actions">
+          <button class="game-btn btn-play" id="btn-play" onclick="startGame()">
+            <span aria-hidden="true">▶</span> PLAY GAME
+          </button>
+          <a class="game-btn btn-secondary" href="#chapter-skills">
+            <span aria-hidden="true">⚔</span> VIEW SKILLS
+          </a>
+          <a class="game-btn btn-tertiary" href="assets/Dan-Morency-Resume.pdf" download>
+            <span aria-hidden="true">💾</span> SAVE FILE (RESUME)
+          </a>
+        </div>
+      </div>
+
+      <p class="title-scroll-hint" aria-hidden="true">↓ SCROLL TO EXPLORE ↓</p>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- GAME WORLD (main scrollable content)  -->
+    <!-- ══════════════════════════════════════ -->
+    <div id="game-world" class="game-world">
+
+      <!-- WORLD MAP -->
+      <section id="worldmap" class="game-section worldmap-section" aria-labelledby="worldmap-heading">
+        <div class="section-inner">
+          <div class="chapter-header">
+            <p class="zone-label">◉ WORLD MAP</p>
+            <h2 id="worldmap-heading" class="section-title">SELECT A CHAPTER</h2>
+            <p class="section-sub">6 chapters to complete. Each one unlocks XP and achievements.</p>
+          </div>
+          <nav class="chapter-map" aria-label="Chapter selection">
+            <a href="#chapter-story" class="chapter-node">
+              <div class="node-icon" aria-hidden="true">📖</div>
+              <div class="node-info">
+                <span class="node-num">CH 1</span>
+                <span class="node-name">THE ORIGIN</span>
+                <span class="node-sub-text">The Through-Line</span>
+              </div>
+              <span class="node-status">UNLOCKED</span>
+            </a>
+            <div class="map-connector" aria-hidden="true"></div>
+            <a href="#chapter-proof" class="chapter-node">
+              <div class="node-icon" aria-hidden="true">🎯</div>
+              <div class="node-info">
+                <span class="node-num">CH 2</span>
+                <span class="node-name">PROOF OF WORK</span>
+                <span class="node-sub-text">Key Achievements</span>
+              </div>
+              <span class="node-status">UNLOCKED</span>
+            </a>
+            <div class="map-connector" aria-hidden="true"></div>
+            <a href="#chapter-experience" class="chapter-node node-boss">
+              <div class="node-icon" aria-hidden="true">⚔</div>
+              <div class="node-info">
+                <span class="node-num">CH 3</span>
+                <span class="node-name">EXPERIENCE ARC</span>
+                <span class="node-sub-text">Boss Battles</span>
+              </div>
+              <span class="node-status status-boss">★ BOSS</span>
+            </a>
+            <div class="map-connector" aria-hidden="true"></div>
+            <a href="#chapter-leadership" class="chapter-node">
+              <div class="node-icon" aria-hidden="true">💡</div>
+              <div class="node-info">
+                <span class="node-num">CH 4</span>
+                <span class="node-name">LEADERSHIP</span>
+                <span class="node-sub-text">Skill Unlocks</span>
+              </div>
+              <span class="node-status">UNLOCKED</span>
+            </a>
+            <div class="map-connector" aria-hidden="true"></div>
+            <a href="#chapter-skills" class="chapter-node">
+              <div class="node-icon" aria-hidden="true">🧠</div>
+              <div class="node-info">
+                <span class="node-num">CH 5</span>
+                <span class="node-name">SKILL TREE</span>
+                <span class="node-sub-text">Core Competencies</span>
+              </div>
+              <span class="node-status">UNLOCKED</span>
+            </a>
+            <div class="map-connector" aria-hidden="true"></div>
+            <a href="#chapter-credentials" class="chapter-node node-final">
+              <div class="node-icon" aria-hidden="true">🏆</div>
+              <div class="node-info">
+                <span class="node-num">CH 6</span>
+                <span class="node-name">ACHIEVEMENTS</span>
+                <span class="node-sub-text">Credentials & Badges</span>
+              </div>
+              <span class="node-status status-final">COLLECT ALL</span>
+            </a>
           </nav>
-        </details>
-      </header>
+        </div>
+      </section>
 
-      <main id="top">
-        <section class="hero" aria-labelledby="page-title">
-          <div class="hero-copy">
-            <p class="eyebrow">Business Leadership • Digital Operations • Enterprise Web Strategy</p>
-            <h1 id="page-title">A business leader who turns complex digital systems into strategic advantage.</h1>
-            <p class="lead">
-              I connect technology execution, marketing strategy, user experience, financial discipline, stakeholders, and AI-enabled workflows so organizations can move faster with clearer systems and better business outcomes.
-            </p>
-            <div class="hero-actions">
-              <a class="button primary" href="assets/Dan-Morency-Resume.pdf" download>Download Resume</a>
-              <a class="button secondary" href="#story">Read the Story</a>
+      <!-- ─── CHAPTER 1: THE ORIGIN STORY ─── -->
+      <section id="chapter-story" class="game-section chapter-section" data-chapter="1" aria-labelledby="story-heading">
+        <div class="section-inner">
+          <div class="chapter-header">
+            <div class="chapter-badge" aria-hidden="true">
+              <span class="badge-num">1</span>
+              <span class="badge-icon">📖</span>
+            </div>
+            <div>
+              <p class="zone-label">◉ THE THROUGH-LINE</p>
+              <h2 id="story-heading" class="section-title">From digital execution to business leadership.</h2>
             </div>
           </div>
 
-          <aside class="hero-panel" aria-label="Career snapshot">
-            <p class="panel-label">Leadership Signal</p>
-            <div class="panel-metric">
-              <span>30,000+</span>
-              <small>web pages supported through enterprise web operations and governance</small>
+          <div class="dialog-sequence" aria-label="Story dialog">
+            <div class="dialog-box">
+              <div class="dialog-speaker">
+                <div class="speaker-avatar" aria-hidden="true">DM</div>
+                <div class="speaker-info">
+                  <span class="speaker-name">Dan Morency</span>
+                  <span class="speaker-title">Player Character</span>
+                </div>
+              </div>
+              <p class="dialog-text">My career began in the details that make digital systems work: search visibility, content performance, advertising, web standards, campaign operations, and user behavior. That foundation taught me how people actually find, use, trust, and act on digital experiences.</p>
             </div>
-            <div class="panel-metric compact">
-              <span>200+</span>
-              <small>distributed web editors trained, supported, and enabled</small>
+            <div class="dialog-box">
+              <div class="dialog-speaker">
+                <div class="speaker-avatar" aria-hidden="true">DM</div>
+                <div class="speaker-info">
+                  <span class="speaker-name">Dan Morency</span>
+                  <span class="speaker-title">Player Character</span>
+                </div>
+              </div>
+              <p class="dialog-text">The work grew into leadership: building departments, creating workflows, training teams, aligning stakeholders, improving governance, and translating business priorities into digital systems that can scale.</p>
             </div>
-            <div class="panel-metric compact">
-              <span>$11M → $31M</span>
-              <small>growth supported by scalable digital operations, budget management, and cross-functional alignment</small>
+            <div class="dialog-box">
+              <div class="dialog-speaker">
+                <div class="speaker-avatar" aria-hidden="true">DM</div>
+                <div class="speaker-info">
+                  <span class="speaker-name">Dan Morency</span>
+                  <span class="speaker-title">Player Character</span>
+                </div>
+              </div>
+              <p class="dialog-text">Today, that experience points toward broader business leadership: improving enterprise web ecosystems, guiding technology-enabled change, managing resources responsibly, reducing operational friction, and helping organizations use AI and digital tools in practical, responsible ways.</p>
             </div>
-            <div class="panel-grid">
-              <span>Business Leadership</span>
-              <span>Digital Transformation</span>
-              <span>Budget Management</span>
-              <span>AI-Enabled Workflows</span>
-            </div>
-          </aside>
-        </section>
+          </div>
 
-        <section class="section intro-section" id="story" aria-labelledby="story-heading">
-          <div>
-            <p class="eyebrow">The Through-Line</p>
-            <h2 id="story-heading">From digital execution to business leadership.</h2>
+          <div class="chapter-complete-bar">
+            <button class="game-btn btn-complete" onclick="completeChapter(1)" data-chapter="1">
+              <span class="complete-icon">✓</span> CHAPTER COMPLETE — CLAIM XP
+            </button>
           </div>
-          <div class="text-stack">
-            <p>
-              My career began in the details that make digital systems work: search visibility, content performance, advertising, web standards, campaign operations, and user behavior. That foundation taught me how people actually find, use, trust, and act on digital experiences.
-            </p>
-            <p>
-              The work grew into leadership: building departments, creating workflows, training teams, aligning stakeholders, improving governance, and translating business priorities into digital systems that can scale.
-            </p>
-            <p>
-              Today, that experience points toward broader business leadership: improving enterprise web ecosystems, guiding technology-enabled change, managing resources responsibly, reducing operational friction, and helping organizations use AI and digital tools in practical, responsible ways.
-            </p>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        <section class="section proof-section" id="proof" aria-labelledby="proof-heading">
-          <div class="section-heading">
-            <p class="eyebrow">Why Talent Teams Should Pay Attention</p>
-            <h2 id="proof-heading">The same pattern shows up across roles: clarify the system, align the people, improve the outcome.</h2>
+      <!-- ─── CHAPTER 2: PROOF OF WORK ─── -->
+      <section id="chapter-proof" class="game-section chapter-section" data-chapter="2" aria-labelledby="proof-heading">
+        <div class="section-inner">
+          <div class="chapter-header">
+            <div class="chapter-badge" aria-hidden="true">
+              <span class="badge-num">2</span>
+              <span class="badge-icon">🎯</span>
+            </div>
+            <div>
+              <p class="zone-label">◉ WHY TALENT TEAMS SHOULD PAY ATTENTION</p>
+              <h2 id="proof-heading" class="section-title">The same pattern shows up across roles.</h2>
+            </div>
           </div>
-          <div class="proof-grid story-proof">
-            <article>
-              <strong>Enterprise scale</strong>
+
+          <div class="quest-grid">
+            <article class="quest-card" data-achievement="Enterprise Scale">
+              <div class="quest-card-header">
+                <span class="quest-icon" aria-hidden="true">🌐</span>
+                <strong class="quest-title">Enterprise Scale</strong>
+                <span class="quest-badge">QUEST COMPLETE</span>
+              </div>
               <p>Lead web operations across a university ecosystem of 30,000+ pages while supporting governance, UX, SEO, accessibility, CMS adoption, and digital performance.</p>
+              <div class="quest-reward" aria-label="Reward: 250 XP">+250 XP</div>
             </article>
-            <article>
-              <strong>Change leadership</strong>
+
+            <article class="quest-card" data-achievement="Change Leader">
+              <div class="quest-card-header">
+                <span class="quest-icon" aria-hidden="true">⚡</span>
+                <strong class="quest-title">Change Leadership</strong>
+                <span class="quest-badge">QUEST COMPLETE</span>
+              </div>
               <p>Directed a university-wide WCAG accessibility initiative, bringing enterprise web properties into compliance in under three months through standards, QA, training, and remediation.</p>
+              <div class="quest-reward" aria-label="Reward: 300 XP">+300 XP</div>
             </article>
-            <article>
-              <strong>Operational buildout</strong>
+
+            <article class="quest-card" data-achievement="Builder">
+              <div class="quest-card-header">
+                <span class="quest-icon" aria-hidden="true">🏗</span>
+                <strong class="quest-title">Operational Buildout</strong>
+                <span class="quest-badge">QUEST COMPLETE</span>
+              </div>
               <p>Built advertising and business analytics functions from scratch, created scalable workflows, and connected reporting, CRM, budgets, campaigns, sales, and operations.</p>
+              <div class="quest-reward" aria-label="Reward: 275 XP">+275 XP</div>
             </article>
-            <article>
-              <strong>Financial stewardship</strong>
-              <p>Managed multi-million-dollar annual advertising budgets, supported P&amp;L-minded growth decisions, and helped revenue grow from $11M to $31M by turning separate digital workstreams into a coordinated operating system.</p>
+
+            <article class="quest-card quest-legendary" data-achievement="Financial Steward">
+              <div class="quest-card-header">
+                <span class="quest-icon" aria-hidden="true">💰</span>
+                <strong class="quest-title">Financial Stewardship</strong>
+                <span class="quest-badge badge-legendary">★ LEGENDARY</span>
+              </div>
+              <p>Managed multi-million-dollar annual advertising budgets and helped revenue grow from $11M to $31M by turning separate digital workstreams into a coordinated operating system.</p>
+              <div class="quest-reward reward-legendary" aria-label="Reward: 500 XP Legendary">+500 XP ★ LEGENDARY</div>
             </article>
           </div>
-        </section>
 
-        <section class="section experience-section" id="experience" aria-labelledby="experience-heading">
-          <div class="section-heading">
-            <p class="eyebrow">Experience Arc</p>
-            <h2 id="experience-heading">Each chapter adds another layer of business leadership readiness.</h2>
+          <div class="chapter-complete-bar">
+            <button class="game-btn btn-complete" onclick="completeChapter(2)" data-chapter="2">
+              <span class="complete-icon">✓</span> CHAPTER COMPLETE — CLAIM XP
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── CHAPTER 3: EXPERIENCE (BOSS BATTLES) ─── -->
+      <section id="chapter-experience" class="game-section chapter-section chapter-boss" data-chapter="3" aria-labelledby="experience-heading">
+        <div class="section-inner">
+          <div class="chapter-header">
+            <div class="chapter-badge badge-boss" aria-hidden="true">
+              <span class="badge-num">3</span>
+              <span class="badge-icon">⚔</span>
+            </div>
+            <div>
+              <p class="zone-label zone-boss">★ BOSS BATTLES — EXPERIENCE ARC</p>
+              <h2 id="experience-heading" class="section-title">Each chapter adds another layer of business leadership readiness.</h2>
+            </div>
           </div>
 
-          <div class="timeline story-arc">
-            <details class="role-card compact-role foundation-role">
-              <summary class="role-summary">
-                <div class="role-meta">
-                  <span>2008 – 2018</span>
-                  <strong>SEO, Advertising & Digital Marketing</strong>
+          <div class="boss-timeline">
+
+            <details class="boss-card boss-foundation">
+              <summary class="boss-summary">
+                <div class="boss-meta">
+                  <span class="boss-era">2008 – 2018</span>
+                  <strong class="boss-org">SEO, Advertising & Digital Marketing</strong>
                 </div>
-                <div class="role-body">
-                  <h3>Learned how digital systems perform in the real world.</h3>
+                <div class="boss-title-area">
+                  <h3 class="boss-role">Learned how digital systems perform in the real world.</h3>
                 </div>
+                <div class="boss-toggle" aria-hidden="true"><span></span></div>
               </summary>
-              <div class="role-details">
-                <p>
-                  Early roles at Slingshot SEO, PayK12, The Sojourn, and Ray Skillman Auto Group built the technical, financial, and operational base: search strategy, advertising, web content, audience behavior, lead generation, reporting, budget management, and digital execution.
-                </p>
-                <p class="story-note">
-                  This is the foundation that makes later leadership practical: strategy grounded in how users, content, platforms, budgets, and performance data actually behave.
-                </p>
+              <div class="boss-details">
+                <p>Early roles at Slingshot SEO, PayK12, The Sojourn, and Ray Skillman Auto Group built the technical, financial, and operational base: search strategy, advertising, web content, audience behavior, lead generation, reporting, budget management, and digital execution.</p>
+                <p class="level-up-note">🔓 FOUNDATION UNLOCKED: Strategy grounded in how users, content, platforms, budgets, and performance data actually behave.</p>
               </div>
             </details>
 
-            <details class="role-card">
-              <summary class="role-summary">
-                <div class="role-meta">
-                  <span>Jan 2018 – June 2021</span>
-                  <strong>Glitch Energy</strong>
+            <details class="boss-card">
+              <summary class="boss-summary">
+                <div class="boss-meta">
+                  <span class="boss-era">Jan 2018 – June 2021</span>
+                  <strong class="boss-org">Glitch Energy</strong>
                 </div>
-                <div class="role-body">
-                  <h3>VP of Marketing and Communications</h3>
+                <div class="boss-title-area">
+                  <h3 class="boss-role">VP of Marketing and Communications</h3>
                 </div>
+                <div class="boss-toggle" aria-hidden="true"><span></span></div>
               </summary>
-              <div class="role-details">
-                <p>
-                  Helped launch and grow Glitch Energy from inception into a revenue-generating brand by building the digital strategy, audience growth engine, partnership approach, email marketing, and integrated content operations.
-                </p>
-                <ul class="action-list">
+              <div class="boss-details">
+                <p>Helped launch and grow Glitch Energy from inception into a revenue-generating brand by building the digital strategy, audience growth engine, partnership approach, email marketing, and integrated content operations.</p>
+                <ul class="loot-list">
                   <li>Built strategic partnerships with influencers, YouTube personalities, and NBA athletes to expand reach and credibility.</li>
                   <li>Led creative and digital campaign operations across video, photography, animation, illustration, and branded storytelling.</li>
                   <li>Aligned brand strategy, content workflows, audience engagement, and business objectives across multiple digital channels.</li>
                 </ul>
-                <p class="story-note">
-                  Leadership layer added: cross-functional brand building, partner management, audience strategy, and digital operations from the ground up.
-                </p>
+                <p class="level-up-note">🔓 LEVEL UP: Cross-functional brand building, partner management, audience strategy, and digital operations from the ground up.</p>
               </div>
             </details>
 
-            <details class="role-card featured-role">
-              <summary class="role-summary">
-                <div class="role-meta">
-                  <span>June 2021 – Feb 2022</span>
-                  <strong>Acculevel</strong>
+            <details class="boss-card boss-featured">
+              <summary class="boss-summary">
+                <div class="boss-meta">
+                  <span class="boss-era">June 2021 – Feb 2022</span>
+                  <strong class="boss-org">Acculevel</strong>
                 </div>
-                <div class="role-body">
-                  <h3>Director of Marketing</h3>
+                <div class="boss-title-area">
+                  <h3 class="boss-role">Director of Marketing</h3>
                 </div>
+                <div class="boss-toggle" aria-hidden="true"><span></span></div>
               </summary>
-              <div class="role-details">
-                <p>
-                  Built scalable growth operations by developing separate but connected functions across video, content, advertising, CRM, budget management, business analytics, and P&amp;L-informed leadership priorities.
-                </p>
-                <ul class="action-list">
+              <div class="boss-details">
+                <p>Built scalable growth operations by developing separate but connected functions across video, content, advertising, CRM, budget management, business analytics, and P&amp;L-informed leadership priorities.</p>
+                <ul class="loot-list">
                   <li>Managed $3M+ in annual digital ad spend while supporting P&amp;L-minded decisions and helping annual revenue grow from $11M to $31M in 10 months.</li>
                   <li>Created the in-house advertising function after work had been outsourced, improving control, speed, and alignment.</li>
                   <li>Built the business analytics function from scratch, including Salesforce and Tableau reporting support for leadership decision-making.</li>
                   <li>Standardized video, content, campaign, CRM, analytics, automation, and Trello-based delivery workflows.</li>
                 </ul>
-                <p class="story-note">
-                  Leadership layer added: department building, operating model design, budget stewardship, vendor transition, analytics-informed decision support, and cross-functional execution at growth speed.
-                </p>
+                <p class="level-up-note">🔓 LEGENDARY ACHIEVEMENT: Department building, operating model design, budget stewardship, and cross-functional execution at growth speed.</p>
               </div>
             </details>
 
-            <details class="role-card current">
-              <summary class="role-summary">
-                <div class="role-meta">
-                  <span>May 2022 – Present</span>
-                  <strong>Ball State University</strong>
+            <details class="boss-card boss-current" open>
+              <summary class="boss-summary">
+                <div class="boss-meta">
+                  <span class="boss-era era-current">★ May 2022 – Present</span>
+                  <strong class="boss-org">Ball State University</strong>
                 </div>
-                <div class="role-body">
-                  <h3>University Web & Digital Marketing Strategist</h3>
+                <div class="boss-title-area">
+                  <h3 class="boss-role">University Web & Digital Marketing Strategist</h3>
                 </div>
+                <div class="boss-toggle" aria-hidden="true"><span></span></div>
               </summary>
-              <div class="role-details">
-                <p>
-                  Lead enterprise web operations and digital experience strategy across a large university ecosystem, connecting UX, accessibility, SEO, analytics-informed insights, CMS governance, stakeholder enablement, and AI-assisted workflows.
-                </p>
-                <ul class="action-list">
+              <div class="boss-details">
+                <p>Lead enterprise web operations and digital experience strategy across a large university ecosystem, connecting UX, accessibility, SEO, analytics-informed insights, CMS governance, stakeholder enablement, and AI-assisted workflows.</p>
+                <ul class="loot-list">
                   <li>Support 30,000+ web pages and 200+ distributed web editors through governance, training, CMS support, and digital standards.</li>
                   <li>Directed a university-wide WCAG accessibility initiative completed in under three months through QA, training, standards, and large-scale remediation.</li>
-                  <li>Independently redesigned and restructured the People and Culture website, leading UX strategy, information architecture, and implementation for hundreds of pages in five months.</li>
+                  <li>Independently redesigned and restructured the People and Culture website, leading UX strategy, information architecture, and implementation in five months.</li>
                   <li>Lead agile intake, prioritization, stakeholder coordination, and high-volume web delivery workflows across institutional priorities.</li>
                   <li>Use BrightEdge, GA4, Google Tag Manager, Microsoft Clarity, enterprise CMS platforms, and AI-assisted workflows to improve delivery and decision support.</li>
                 </ul>
-                <p class="story-note">
-                  Leadership layer added: enterprise governance, accessibility compliance, distributed team enablement, digital transformation, and practical AI workflow adoption in a complex institution.
-                </p>
+                <p class="level-up-note">🔓 CURRENT RAID ACTIVE: Enterprise governance, accessibility compliance, distributed team enablement, digital transformation, and practical AI workflow adoption.</p>
               </div>
             </details>
-          </div>
-        </section>
 
-        <section class="section leadership-section" id="leadership" aria-labelledby="leadership-heading">
-          <div class="section-heading">
-            <p class="eyebrow">Business Leadership Value</p>
-            <h2 id="leadership-heading">What this means for the next organization.</h2>
           </div>
-          <div class="leadership-grid">
-            <article>
-              <span>01</span>
-              <h3>Translate ambiguity into operating structure.</h3>
-              <p>Clarify needs, define priorities, organize workflows, and turn scattered digital requests, budget decisions, and stakeholder needs into systems teams can actually execute.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Connect strategy, operations, and financial judgment.</h3>
-              <p>Balance growth goals, resource constraints, vendor decisions, and operational capacity so digital work supports the larger business model.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>Improve digital experiences at enterprise scale.</h3>
-              <p>Connect UX, accessibility, CMS governance, SEO, content quality, and analytics-informed insights into better user and business outcomes.</p>
-            </article>
-            <article>
-              <span>04</span>
-              <h3>Use AI as practical operational leverage.</h3>
-              <p>Apply AI-assisted workflows to improve content operations, delivery speed, QA, reporting support, and digital execution without losing strategic or financial judgment.</p>
-            </article>
-          </div>
-        </section>
 
-        <section class="section strengths" aria-labelledby="strengths-heading">
-          <div class="section-heading">
-            <p class="eyebrow">Core Competencies</p>
-            <h2 id="strengths-heading">A blended profile for business leadership, digital transformation, and enterprise web operations.</h2>
+          <div class="chapter-complete-bar">
+            <button class="game-btn btn-complete btn-boss-complete" onclick="completeChapter(3)" data-chapter="3">
+              <span class="complete-icon">⚔</span> BOSS DEFEATED — CLAIM LEGENDARY LOOT
+            </button>
           </div>
-          <div class="chip-grid" aria-label="Core competencies scrolling list">
-            <div class="chip-row">
-              <div class="chip-track">
-                <div class="chip-set">
-                  <span>Business Leadership</span>
-                  <span>Digital Transformation</span>
-                  <span>Web Operations</span>
-                  <span>Digital Experience Strategy</span>
-                  <span>Budget Management</span>
+        </div>
+      </section>
+
+      <!-- ─── CHAPTER 4: LEADERSHIP (ABILITY UNLOCKS) ─── -->
+      <section id="chapter-leadership" class="game-section chapter-section" data-chapter="4" aria-labelledby="leadership-heading">
+        <div class="section-inner">
+          <div class="chapter-header">
+            <div class="chapter-badge" aria-hidden="true">
+              <span class="badge-num">4</span>
+              <span class="badge-icon">💡</span>
+            </div>
+            <div>
+              <p class="zone-label">◉ BUSINESS LEADERSHIP VALUE</p>
+              <h2 id="leadership-heading" class="section-title">What this means for the next organization.</h2>
+            </div>
+          </div>
+
+          <div class="ability-grid">
+            <article class="ability-card">
+              <div class="ability-top">
+                <span class="ability-num" aria-hidden="true">01</span>
+                <span class="ability-icon" aria-hidden="true">🔧</span>
+              </div>
+              <h3 class="ability-name">Translate Ambiguity → Structure</h3>
+              <div class="ability-bar-wrap">
+                <div class="ability-bar">
+                  <div class="ability-fill" style="--fill: 95%"></div>
                 </div>
-                <div class="chip-set" aria-hidden="true">
-                  <span>Business Leadership</span>
-                  <span>Digital Transformation</span>
-                  <span>Web Operations</span>
-                  <span>Digital Experience Strategy</span>
-                  <span>Budget Management</span>
+                <span class="ability-pct">95</span>
+              </div>
+              <p class="ability-desc">Clarify needs, define priorities, organize workflows, and turn scattered digital requests, budget decisions, and stakeholder needs into systems teams can actually execute.</p>
+              <span class="ability-badge">MASTERED</span>
+            </article>
+
+            <article class="ability-card">
+              <div class="ability-top">
+                <span class="ability-num" aria-hidden="true">02</span>
+                <span class="ability-icon" aria-hidden="true">📊</span>
+              </div>
+              <h3 class="ability-name">Strategy + Operations + Finance</h3>
+              <div class="ability-bar-wrap">
+                <div class="ability-bar">
+                  <div class="ability-fill" style="--fill: 92%"></div>
+                </div>
+                <span class="ability-pct">92</span>
+              </div>
+              <p class="ability-desc">Balance growth goals, resource constraints, vendor decisions, and operational capacity so digital work supports the larger business model.</p>
+              <span class="ability-badge">MASTERED</span>
+            </article>
+
+            <article class="ability-card ability-max">
+              <div class="ability-top">
+                <span class="ability-num" aria-hidden="true">03</span>
+                <span class="ability-icon" aria-hidden="true">🌐</span>
+              </div>
+              <h3 class="ability-name">Enterprise Digital Experience</h3>
+              <div class="ability-bar-wrap">
+                <div class="ability-bar">
+                  <div class="ability-fill" style="--fill: 98%"></div>
+                </div>
+                <span class="ability-pct">98</span>
+              </div>
+              <p class="ability-desc">Connect UX, accessibility, CMS governance, SEO, content quality, and analytics-informed insights into better user and business outcomes.</p>
+              <span class="ability-badge badge-max">★ MAX LEVEL</span>
+            </article>
+
+            <article class="ability-card">
+              <div class="ability-top">
+                <span class="ability-num" aria-hidden="true">04</span>
+                <span class="ability-icon" aria-hidden="true">🤖</span>
+              </div>
+              <h3 class="ability-name">AI Operational Leverage</h3>
+              <div class="ability-bar-wrap">
+                <div class="ability-bar">
+                  <div class="ability-fill" style="--fill: 88%"></div>
+                </div>
+                <span class="ability-pct">88</span>
+              </div>
+              <p class="ability-desc">Apply AI-assisted workflows to improve content operations, delivery speed, QA, reporting support, and digital execution without losing strategic or financial judgment.</p>
+              <span class="ability-badge badge-equipped">EQUIPPED</span>
+            </article>
+          </div>
+
+          <div class="chapter-complete-bar">
+            <button class="game-btn btn-complete" onclick="completeChapter(4)" data-chapter="4">
+              <span class="complete-icon">✓</span> ABILITIES LEARNED — CLAIM XP
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── CHAPTER 5: SKILL TREE (COMPETENCIES) ─── -->
+      <section id="chapter-skills" class="game-section chapter-section" data-chapter="5" aria-labelledby="skills-heading">
+        <div class="section-inner">
+          <div class="chapter-header">
+            <div class="chapter-badge" aria-hidden="true">
+              <span class="badge-num">5</span>
+              <span class="badge-icon">🧠</span>
+            </div>
+            <div>
+              <p class="zone-label">◉ CORE COMPETENCIES</p>
+              <h2 id="skills-heading" class="section-title">A blended profile for business leadership, digital transformation, and enterprise web operations.</h2>
+            </div>
+          </div>
+
+          <div class="inventory-grid" aria-label="Core competencies">
+            <div class="inventory-row">
+              <div class="inv-track">
+                <div class="inv-set">
+                  <span class="inv-item">Business Leadership</span>
+                  <span class="inv-item item-rare">Digital Transformation</span>
+                  <span class="inv-item">Web Operations</span>
+                  <span class="inv-item item-rare">Digital Experience Strategy</span>
+                  <span class="inv-item">Budget Management</span>
+                </div>
+                <div class="inv-set" aria-hidden="true">
+                  <span class="inv-item">Business Leadership</span>
+                  <span class="inv-item item-rare">Digital Transformation</span>
+                  <span class="inv-item">Web Operations</span>
+                  <span class="inv-item item-rare">Digital Experience Strategy</span>
+                  <span class="inv-item">Budget Management</span>
                 </div>
               </div>
             </div>
-            <div class="chip-row">
-              <div class="chip-track">
-                <div class="chip-set">
-                  <span>UX Optimization</span>
-                  <span>Accessibility Compliance</span>
-                  <span>Web Governance</span>
-                  <span>Stakeholder Enablement</span>
-                  <span>Cross-Functional Leadership</span>
+            <div class="inventory-row row-reverse">
+              <div class="inv-track">
+                <div class="inv-set">
+                  <span class="inv-item">UX Optimization</span>
+                  <span class="inv-item item-epic">Accessibility Compliance</span>
+                  <span class="inv-item">Web Governance</span>
+                  <span class="inv-item item-rare">Stakeholder Enablement</span>
+                  <span class="inv-item">Cross-Functional Leadership</span>
                 </div>
-                <div class="chip-set" aria-hidden="true">
-                  <span>UX Optimization</span>
-                  <span>Accessibility Compliance</span>
-                  <span>Web Governance</span>
-                  <span>Stakeholder Enablement</span>
-                  <span>Cross-Functional Leadership</span>
+                <div class="inv-set" aria-hidden="true">
+                  <span class="inv-item">UX Optimization</span>
+                  <span class="inv-item item-epic">Accessibility Compliance</span>
+                  <span class="inv-item">Web Governance</span>
+                  <span class="inv-item item-rare">Stakeholder Enablement</span>
+                  <span class="inv-item">Cross-Functional Leadership</span>
                 </div>
               </div>
             </div>
-            <div class="chip-row">
-              <div class="chip-track">
-                <div class="chip-set">
-                  <span>AI-Driven Workflow Optimization</span>
-                  <span>Agile Project Management</span>
-                  <span>SEO & CRO</span>
-                  <span>GTM / GA4 / Clarity</span>
-                  <span>P&amp;L-Informed Decision Support</span>
-                  <span>Localization & Content Operations</span>
+            <div class="inventory-row">
+              <div class="inv-track">
+                <div class="inv-set">
+                  <span class="inv-item item-legendary">AI-Driven Workflows</span>
+                  <span class="inv-item">Agile Project Mgmt</span>
+                  <span class="inv-item item-rare">SEO & CRO</span>
+                  <span class="inv-item">GTM / GA4 / Clarity</span>
+                  <span class="inv-item item-epic">P&amp;L-Informed Decisions</span>
+                  <span class="inv-item">Content Operations</span>
                 </div>
-                <div class="chip-set" aria-hidden="true">
-                  <span>AI-Driven Workflow Optimization</span>
-                  <span>Agile Project Management</span>
-                  <span>SEO & CRO</span>
-                  <span>GTM / GA4 / Clarity</span>
-                  <span>P&amp;L-Informed Decision Support</span>
-                  <span>Localization & Content Operations</span>
+                <div class="inv-set" aria-hidden="true">
+                  <span class="inv-item item-legendary">AI-Driven Workflows</span>
+                  <span class="inv-item">Agile Project Mgmt</span>
+                  <span class="inv-item item-rare">SEO & CRO</span>
+                  <span class="inv-item">GTM / GA4 / Clarity</span>
+                  <span class="inv-item item-epic">P&amp;L-Informed Decisions</span>
+                  <span class="inv-item">Content Operations</span>
                 </div>
               </div>
             </div>
           </div>
-        </section>
 
-        <section class="section credentials-section" id="credentials" aria-labelledby="credentials-heading">
-          <div class="section-heading">
-            <p class="eyebrow">Education & Certifications</p>
-            <h2 id="credentials-heading">Continuous learning aligned with business leadership, finance, technology, UX, AI, and digital performance.</h2>
+          <div class="chapter-complete-bar">
+            <button class="game-btn btn-complete" onclick="completeChapter(5)" data-chapter="5">
+              <span class="complete-icon">✓</span> SKILLS CATALOGUED — CLAIM XP
+            </button>
           </div>
+        </div>
+      </section>
+
+      <!-- ─── CHAPTER 6: ACHIEVEMENTS / CREDENTIALS ─── -->
+      <section id="chapter-credentials" class="game-section chapter-section" data-chapter="6" aria-labelledby="credentials-heading">
+        <div class="section-inner">
+          <div class="chapter-header">
+            <div class="chapter-badge badge-gold" aria-hidden="true">
+              <span class="badge-num">6</span>
+              <span class="badge-icon">🏆</span>
+            </div>
+            <div>
+              <p class="zone-label">◉ EDUCATION & CERTIFICATIONS</p>
+              <h2 id="credentials-heading" class="section-title">Continuous learning aligned with business leadership, finance, technology, UX, AI, and digital performance.</h2>
+            </div>
+          </div>
+
           <div class="credential-layout">
-            <article class="credential-card education-card">
-              <h3>Education</h3>
-              <ul class="clean-list">
-                <li><strong>MBA Certificate coursework</strong><span>Ball State University, in progress</span></li>
-                <li><strong>Master of Business Administration</strong><span>Ball State University, planned next step</span></li>
-                <li><strong>Bachelor of Arts, Marketing</strong><span>Indiana Wesleyan University</span></li>
-                <li><strong>Bachelor of Arts, Business Administration</strong><span>Indiana Wesleyan University, including substantial finance coursework</span></li>
+            <article class="cred-panel edu-panel">
+              <h3 class="cred-panel-title">📚 Education Log</h3>
+              <ul class="edu-list">
+                <li class="edu-item">
+                  <span class="edu-icon" aria-hidden="true">🎓</span>
+                  <div class="edu-info">
+                    <strong>MBA Certificate coursework</strong>
+                    <span>Ball State University, in progress</span>
+                  </div>
+                  <span class="edu-status status-active">ACTIVE</span>
+                </li>
+                <li class="edu-item">
+                  <span class="edu-icon" aria-hidden="true">🎓</span>
+                  <div class="edu-info">
+                    <strong>Master of Business Administration</strong>
+                    <span>Ball State University, planned next step</span>
+                  </div>
+                  <span class="edu-status status-upcoming">UPCOMING</span>
+                </li>
+                <li class="edu-item">
+                  <span class="edu-icon" aria-hidden="true">🎓</span>
+                  <div class="edu-info">
+                    <strong>Bachelor of Arts, Marketing</strong>
+                    <span>Indiana Wesleyan University</span>
+                  </div>
+                  <span class="edu-status status-done">✓ DONE</span>
+                </li>
+                <li class="edu-item">
+                  <span class="edu-icon" aria-hidden="true">🎓</span>
+                  <div class="edu-info">
+                    <strong>Bachelor of Arts, Business Administration</strong>
+                    <span>Indiana Wesleyan University, including substantial finance coursework</span>
+                  </div>
+                  <span class="edu-status status-done">✓ DONE</span>
+                </li>
               </ul>
             </article>
-            <article class="credential-card">
-              <h3>Certifications & Professional Development</h3>
-              <div class="cert-grid">
-                <span>Google AI Certification</span>
-                <span>LEAD — Ball State University</span>
-                <span>Google UX Design</span>
-                <span>Responsive Web Design</span>
-                <span>Responsive Web Development — freeCodeCamp</span>
-                <span>Google Search Ads</span>
-                <span>Google Display Ads</span>
-                <span>YouTube Ads</span>
-                <span>Google Shopping</span>
-                <span>Meta / Facebook Advertising</span>
-                <span>Life Coaching — Academy of Modern Applied Psychology</span>
+
+            <article class="cred-panel badge-panel">
+              <h3 class="cred-panel-title">🏅 Badge Collection</h3>
+              <div class="badge-collection">
+                <div class="badge-chip"><span aria-hidden="true">🤖</span> Google AI Certification</div>
+                <div class="badge-chip chip-featured"><span aria-hidden="true">⭐</span> LEAD — Ball State University</div>
+                <div class="badge-chip"><span aria-hidden="true">🎨</span> Google UX Design</div>
+                <div class="badge-chip"><span aria-hidden="true">📱</span> Responsive Web Design</div>
+                <div class="badge-chip"><span aria-hidden="true">💻</span> Responsive Web Dev — freeCodeCamp</div>
+                <div class="badge-chip"><span aria-hidden="true">🔍</span> Google Search Ads</div>
+                <div class="badge-chip"><span aria-hidden="true">📺</span> Google Display Ads</div>
+                <div class="badge-chip"><span aria-hidden="true">▶</span> YouTube Ads</div>
+                <div class="badge-chip"><span aria-hidden="true">🛒</span> Google Shopping</div>
+                <div class="badge-chip"><span aria-hidden="true">👥</span> Meta / Facebook Advertising</div>
+                <div class="badge-chip"><span aria-hidden="true">🧠</span> Life Coaching — AMAP</div>
               </div>
             </article>
           </div>
-        </section>
 
-        <section class="section resume-section" id="resume" aria-labelledby="resume-heading">
-          <div>
-            <p class="eyebrow">Resume</p>
-            <h2 id="resume-heading">The short version is one page. The story is bigger.</h2>
+          <div class="chapter-complete-bar">
+            <button class="game-btn btn-complete btn-final" onclick="completeChapter(6)" data-chapter="6">
+              <span class="complete-icon">🏆</span> ALL ACHIEVEMENTS COLLECTED — GAME COMPLETE!
+            </button>
           </div>
-          <div class="resume-card">
-            <p>
-              Download the current PDF resume for a concise view of my business leadership readiness, enterprise web operations, budget management, UX, accessibility, digital transformation, and AI-enabled workflow experience.
-            </p>
-            <a class="button primary" href="assets/Dan-Morency-Resume.pdf" download>Download PDF Resume</a>
-          </div>
-        </section>
-      </main>
-
-      <footer class="site-footer" id="contact">
-        <p>Interested in roles where business leadership, digital strategy, web operations, financial discipline, digital transformation, and AI-enabled workflow improvement create meaningful organizational impact.</p>
-        <div>
-          <a href="mailto:danmorency@gmail.com">Email</a>
-          <a href="assets/Dan-Morency-Resume.pdf" download>Resume PDF</a>
-          <a href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
-      </footer>
-    </div>
+      </section>
+
+      <!-- ─── VICTORY / RESUME SCREEN ─── -->
+      <section id="victory" class="game-section victory-section" aria-labelledby="victory-heading">
+        <div class="section-inner">
+          <div class="victory-layout">
+            <div class="victory-main">
+              <p class="victory-pre" aria-hidden="true">🎉 PORTFOLIO COMPLETE!</p>
+              <h2 id="victory-heading" class="victory-title">YOU WIN!</h2>
+              <p class="victory-sub">The short version is one page. The story is bigger.</p>
+              <p class="victory-body">Download the current PDF resume for a concise view of my business leadership readiness, enterprise web operations, budget management, UX, accessibility, digital transformation, and AI-enabled workflow experience.</p>
+              <div class="victory-actions">
+                <a class="game-btn btn-play" href="assets/Dan-Morency-Resume.pdf" download>
+                  <span aria-hidden="true">💾</span> DOWNLOAD SAVE FILE (PDF RESUME)
+                </a>
+                <button class="game-btn btn-secondary" onclick="document.getElementById('worldmap').scrollIntoView({behavior:'smooth'})">
+                  <span aria-hidden="true">↩</span> PLAY AGAIN
+                </button>
+              </div>
+              <div class="contact-links">
+                <a href="mailto:danmorency@gmail.com" class="contact-link">✉ Email</a>
+                <a href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer" class="contact-link">🔗 LinkedIn</a>
+                <a href="assets/Dan-Morency-Resume.pdf" download class="contact-link">📄 Resume PDF</a>
+              </div>
+            </div>
+
+            <aside class="victory-stats" aria-label="Career statistics">
+              <p class="victory-stats-label">FINAL STATS</p>
+              <div class="victory-stat">
+                <span class="vstat-num">30,000+</span>
+                <span class="vstat-desc">web pages supported through enterprise web operations and governance</span>
+              </div>
+              <div class="victory-stat compact">
+                <span class="vstat-num">200+</span>
+                <span class="vstat-desc">distributed web editors trained, supported, and enabled</span>
+              </div>
+              <div class="victory-stat compact">
+                <span class="vstat-num">$11M → $31M</span>
+                <span class="vstat-desc">growth supported by scalable digital operations, budget management, and cross-functional alignment</span>
+              </div>
+              <div class="victory-tags">
+                <span>Business Leadership</span>
+                <span>Digital Transformation</span>
+                <span>Budget Management</span>
+                <span>AI-Enabled Workflows</span>
+              </div>
+              <p class="victory-footer-note">Interested in roles where business leadership, digital strategy, web operations, financial discipline, digital transformation, and AI-enabled workflow improvement create meaningful organizational impact.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- end #game-world -->
+
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <nav class="bottom-nav" aria-label="Game navigation">
+      <a href="#worldmap" class="bnav-item">
+        <span class="bnav-icon" aria-hidden="true">🗺</span>
+        <span class="bnav-label">MAP</span>
+      </a>
+      <a href="#chapter-experience" class="bnav-item">
+        <span class="bnav-icon" aria-hidden="true">⚔</span>
+        <span class="bnav-label">XP</span>
+      </a>
+      <a href="#chapter-skills" class="bnav-item">
+        <span class="bnav-icon" aria-hidden="true">🧠</span>
+        <span class="bnav-label">SKILLS</span>
+      </a>
+      <a href="#chapter-credentials" class="bnav-item">
+        <span class="bnav-icon" aria-hidden="true">🏆</span>
+        <span class="bnav-label">BADGES</span>
+      </a>
+      <a href="assets/Dan-Morency-Resume.pdf" class="bnav-item" download>
+        <span class="bnav-icon" aria-hidden="true">💾</span>
+        <span class="bnav-label">RESUME</span>
+      </a>
+    </nav>
+
+    <script src="game.js"></script>
   </body>
 </html>
