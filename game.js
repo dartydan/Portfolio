@@ -1,233 +1,504 @@
-// Portfolio Quest — Game Logic
+// ══════════════════════════════════════════════
+//  PORTFOLIO QUEST — GAME ENGINE
+// ══════════════════════════════════════════════
 
-const XP_TABLE = {
-  1: 100,
-  2: 300,
-  3: 600,
-  4: 200,
-  5: 150,
-  6: 350
-};
+// ── GAME DATA ─────────────────────────────────
 
-const CHAPTER_NAMES = {
-  1: 'The Origin Story',
-  2: 'Proof of Work',
-  3: 'Boss Defeated!',
-  4: 'Abilities Unlocked',
-  5: 'Skill Tree Mastered',
-  6: '★ Portfolio Complete!'
-};
-
-// XP needed to reach each level (cumulative)
-const LEVEL_XP = [0, 100, 300, 600, 900, 1300, 1700];
-
-let state = loadState();
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem('pq_state');
-    return saved
-      ? JSON.parse(saved)
-      : { xp: 0, level: 1, completed: [] };
-  } catch {
-    return { xp: 0, level: 1, completed: [] };
-  }
-}
-
-function saveState() {
-  try {
-    localStorage.setItem('pq_state', JSON.stringify(state));
-  } catch {}
-}
-
-function startGame() {
-  const titleEl = document.getElementById('screen-title');
-  const hudEl   = document.getElementById('game-hud');
-
-  titleEl.classList.add('screen-exit');
-  hudEl.classList.add('hud-visible');
-
-  setTimeout(() => {
-    titleEl.style.display = 'none';
-    document.getElementById('worldmap').scrollIntoView({ behavior: 'smooth' });
-  }, 500);
-
-  updateHUD();
-}
-
-function completeChapter(num) {
-  const btn = document.querySelector(`.game-section[data-chapter="${num}"] .btn-complete`);
-
-  if (state.completed.includes(num)) {
-    showToast('Already collected!', '✓', false);
-    return;
-  }
-
-  const xpGain = XP_TABLE[num] || 100;
-  state.xp += xpGain;
-  state.completed.push(num);
-
-  const prevLevel = state.level;
-  recalcLevel();
-
-  saveState();
-  updateHUD();
-
-  if (btn) {
-    btn.dataset.done = 'true';
-    btn.textContent  = '✓ XP CLAIMED';
-    btn.disabled     = true;
-  }
-
-  if (state.level > prevLevel) {
-    setTimeout(() => showToast(`LEVEL UP! You are now Level ${state.level}!`, '⭐', true), 1600);
-  }
-
-  showAchievement(CHAPTER_NAMES[num], xpGain);
-
-  const nextSection = document.querySelector(`.game-section[data-chapter="${num + 1}"]`)
-    || document.getElementById('victory');
-
-  if (nextSection) {
-    setTimeout(() => nextSection.scrollIntoView({ behavior: 'smooth' }), 1400);
-  }
-}
-
-function recalcLevel() {
-  let lvl = 1;
-  for (let i = 0; i < LEVEL_XP.length; i++) {
-    if (state.xp >= LEVEL_XP[i]) lvl = i + 1;
-  }
-  state.level = Math.min(lvl, LEVEL_XP.length);
-}
-
-function updateHUD() {
-  const lvlEl   = document.getElementById('player-level');
-  const fillEl  = document.getElementById('xp-fill');
-  const valueEl = document.getElementById('xp-value');
-  const countEl = document.getElementById('achievement-count');
-
-  if (lvlEl)   lvlEl.textContent   = state.level;
-  if (countEl) countEl.textContent = state.completed.length;
-
-  const curFloor = LEVEL_XP[state.level - 1] || 0;
-  const nxtCeil  = LEVEL_XP[state.level]     || LEVEL_XP[LEVEL_XP.length - 1];
-  const pct      = nxtCeil > curFloor
-    ? Math.min(100, ((state.xp - curFloor) / (nxtCeil - curFloor)) * 100)
-    : 100;
-
-  if (fillEl) {
-    fillEl.style.width = pct + '%';
-    fillEl.closest('[aria-valuenow]')?.setAttribute('aria-valuenow', Math.round(pct));
-  }
-  if (valueEl) valueEl.textContent = state.xp + ' XP';
-}
-
-// Restore already-completed chapter buttons on page load
-function restoreButtons() {
-  state.completed.forEach(num => {
-    const btn = document.querySelector(`.game-section[data-chapter="${num}"] .btn-complete`);
-    if (btn) {
-      btn.dataset.done = 'true';
-      btn.textContent  = '✓ XP CLAIMED';
-      btn.disabled     = true;
+const ZONES = [
+  {
+    id: 'foundry', chapterNum: 1,
+    name: 'THE FOUNDRY', era: '2008 — 2018',
+    sub: 'Where the Foundation was Forged',
+    bgClass: 'bg-foundry', npcColor: '#37474F', npcName: 'Young Dan',
+    dialogue: [
+      "Welcome to The Foundry. This is where my story began.",
+      "Slingshot SEO. PayK12. The Sojourn. Ray Skillman Auto Group.",
+      "Ten years learning how digital systems really work in the real world.",
+      "Search strategy. Advertising. Web content. User behavior. Budget management.",
+      "Every campaign, every report, every optimization — building the foundation.",
+      "Without this grounding, nothing that followed would have been possible."
+    ],
+    boss: {
+      name: 'ALGORITHM CHAOS', sub: 'The unpredictable search landscape',
+      sprite: '🌀',
+      attacks: [
+        { label: '⚔ SEO MASTERY',    desc: 'Technical + content strategy applied across multiple platforms.' },
+        { label: '📊 DATA ANALYSIS', desc: 'Reporting systems and insight extraction built from scratch.' },
+        { label: '💰 PAID SEARCH',   desc: 'Campaign structure and bid optimization mastered.' }
+      ],
+      winText: 'FOUNDATION UNLOCKED! Digital fundamentals mastered across 10 years and 4 companies.'
+    },
+    reward: {
+      icon: '⚙', type: 'PASSIVE ABILITY',
+      name: 'DIGITAL FOUNDATION',
+      desc: 'All digital skills gain +15% effectiveness. Technical instincts permanently enhanced.'
     }
-  });
-}
+  },
+  {
+    id: 'glitch', chapterNum: 2,
+    name: 'GLITCH ENERGY REALM', era: '2018 — 2021',
+    sub: 'VP of Marketing & Communications',
+    bgClass: 'bg-glitch', npcColor: '#6a0dad', npcName: 'VP Dan',
+    dialogue: [
+      "Welcome to the Glitch Energy Realm. This is where I became a real leader.",
+      "We launched an energy drink brand from absolute zero — zero budget, zero audience.",
+      "NBA athletes. YouTube personalities. Millions of impressions built through strategy.",
+      "I owned creative ops: video, animation, photography, and branded storytelling.",
+      "Brand strategy, content workflows, and audience growth — all connected and aligned.",
+      "Leadership layer unlocked: cross-functional brand building from the ground up."
+    ],
+    boss: {
+      name: 'BRAND OBSCURITY', sub: 'Unknown in a saturated market',
+      sprite: '🌫',
+      attacks: [
+        { label: '🤝 PARTNERSHIP PLAY', desc: 'NBA + YouTube influencer strategy activated.' },
+        { label: '🎬 CONTENT BLITZ',    desc: 'Multi-channel campaign operations fully deployed.' },
+        { label: '📣 AUDIENCE BUILD',   desc: 'Community, email, and digital engagement systems live.' }
+      ],
+      winText: 'BRAND BUILT! Market presence established from zero. Partnership network fully operational.'
+    },
+    reward: {
+      icon: '🎮', type: 'ACTIVE ABILITY',
+      name: 'BRAND ARCHITECT',
+      desc: 'Can build a brand strategy from inception. Partner network +50. Creative ops mastery unlocked.'
+    }
+  },
+  {
+    id: 'acculevel', chapterNum: 3,
+    name: 'ACCULEVEL DUNGEON', era: '2021 — 2022',
+    sub: 'Director of Marketing',
+    bgClass: 'bg-acculevel', npcColor: '#7a5800', npcName: 'Director Dan',
+    dialogue: [
+      "The Acculevel Dungeon. The most demanding challenge I had faced yet.",
+      "I took outsourced marketing in-house and built the entire machine from scratch.",
+      "$3M+ in annual ad spend. Salesforce. Tableau. Trello workflows across every team.",
+      "In just 10 months, annual revenue grew from $11 million to $31 million.",
+      "Department built. Operating model designed. Budget stewarded. Analytics deployed.",
+      "This dungeon proved I could run — and scale — the entire operation."
+    ],
+    boss: {
+      name: '$3M BUDGET DRAGON', sub: 'P&L accountability at growth scale',
+      sprite: '🐉',
+      attacks: [
+        { label: '🏗 IN-HOUSE BUILD',  desc: 'Outsourcing eliminated. $11M → $31M. Revenue dragon stunned.' },
+        { label: '📈 ANALYTICS FORGE', desc: 'Salesforce + Tableau decision support systems forged.' },
+        { label: '⚙ WORKFLOW SYSTEM', desc: 'Cross-functional operating model deployed across all teams.' }
+      ],
+      winText: 'LEGENDARY VICTORY! $31M achieved in 10 months. Budget dragon defeated. Department fully operational.'
+    },
+    reward: {
+      icon: '💰', type: '★ LEGENDARY ABILITY',
+      name: 'FINANCIAL STEWARDSHIP',
+      desc: 'P&L judgment + budget mastery at scale. Revenue growth engine. Operating model design.'
+    }
+  },
+  {
+    id: 'ballstate', chapterNum: 4,
+    name: 'BALL STATE FORTRESS', era: '2022 — PRESENT',
+    sub: 'University Web & Digital Marketing Strategist',
+    bgClass: 'bg-ballstate', npcColor: '#c41100', npcName: 'Strategist Dan',
+    dialogue: [
+      "Ball State Fortress. The current raid. Still very much active.",
+      "30,000 web pages. 200+ distributed editors. One system to govern it all.",
+      "I directed a WCAG accessibility initiative — university-wide, done in under 3 months.",
+      "Independently redesigned the People & Culture site: hundreds of pages in five months.",
+      "BrightEdge. GA4. GTM. Microsoft Clarity. Enterprise CMS. AI-assisted workflows.",
+      "The fortress is strong — and I'm ready for the next, larger challenge."
+    ],
+    boss: {
+      name: 'ENTERPRISE WEB CHAOS', sub: '30,000 ungoverned pages',
+      sprite: '🕸',
+      attacks: [
+        { label: '🏛 GOVERNANCE SYSTEM', desc: 'CMS standards, training, and structure established at scale.' },
+        { label: '♿ WCAG INITIATIVE',   desc: 'Full university accessibility compliance in under 3 months.' },
+        { label: '🤖 AI WORKFLOW',       desc: 'Velocity and quality elevated through AI-assisted operations.' }
+      ],
+      winText: 'FORTRESS SECURED! Enterprise web operations mastered. 30K+ pages governed. Accessibility achieved.'
+    },
+    reward: {
+      icon: '🏛', type: '★ LEGENDARY ABILITY',
+      name: 'ENTERPRISE MASTERY',
+      desc: 'Enterprise-scale digital governance. AI-enabled operations. Accessibility compliance at speed.'
+    }
+  }
+];
 
-let toastTimer = null;
+const INTRO_LINES = [
+  "In the digital realm, legends are forged through experience...",
+  "18 years of work. 4 major quests. Countless challenges overcome.",
+  "A strategist who connects technology, people, and business outcomes.",
+  "This is the career story of Dan Morency.",
+  "Business Leader. Digital Strategist. Enterprise Web Champion.",
+  "Your adventure begins now."
+];
 
-function showAchievement(name, xp) {
-  const toast  = document.getElementById('achievement-toast');
-  const nameEl = document.getElementById('toast-name');
-  if (!toast || !nameEl) return;
+const CHAR_STATS = [
+  { name: 'LEADERSHIP',    val: 95, color: '#e53535', delay: 0 },
+  { name: 'DIGITAL STRAT', val: 98, color: '#4d97ff', delay: 0.1 },
+  { name: 'FINANCE',       val: 92, color: '#ffc107', delay: 0.2 },
+  { name: 'EXECUTION',     val: 88, color: '#06d6a0', delay: 0.3 },
+  { name: 'STAKEHOLDERS',  val: 90, color: '#a855f7', delay: 0.4 },
+  { name: 'AI WORKFLOWS',  val: 85, color: '#fb8c00', delay: 0.5 }
+];
 
-  nameEl.textContent = `${name}  (+${xp} XP)`;
-  toast.classList.add('toast-visible');
+// ── TYPEWRITER ─────────────────────────────────
 
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('toast-visible'), 3400);
-}
+class Typewriter {
+  constructor(el, cursorEl, speed = 22) {
+    this.el = el;
+    this.cursor = cursorEl;
+    this.speed = speed;
+    this._t = null;
+    this.done = false;
+    this._full = '';
+    this._cb = null;
+  }
 
-function showToast(msg, icon, _isLevelUp) {
-  showAchievement(msg, 0);
-}
-
-// Section entrance animations via IntersectionObserver
-function initObserver() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('section-visible');
+  write(text, cb) {
+    clearInterval(this._t);
+    this._full = text;
+    this._cb = cb || null;
+    this.done = false;
+    this.el.textContent = '';
+    if (this.cursor) this.cursor.classList.remove('hidden');
+    let i = 0;
+    this._t = setInterval(() => {
+      this.el.textContent += text[i++];
+      if (i >= text.length) {
+        clearInterval(this._t);
+        this.done = true;
+        if (this.cursor) this.cursor.classList.add('hidden');
+        this._cb && this._cb();
       }
-    });
-  }, { threshold: 0.08 });
+    }, this.speed);
+  }
 
-  document.querySelectorAll('.game-section').forEach(el => observer.observe(el));
-}
-
-// Generate floating particles on the title screen
-function spawnParticles() {
-  const container = document.getElementById('title-particles');
-  if (!container) return;
-
-  const colors = ['#4d97ff', '#a855f7', '#06d6a0', '#ffc107', '#e53535'];
-
-  for (let i = 0; i < 24; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const size = 3 + Math.random() * 7;
-    p.style.cssText = [
-      `left: ${Math.random() * 100}%`,
-      `top: ${Math.random() * 100}%`,
-      `width: ${size}px`,
-      `height: ${size}px`,
-      `background: ${colors[Math.floor(Math.random() * colors.length)]}`,
-      `animation-delay: ${(Math.random() * 3).toFixed(2)}s`,
-      `animation-duration: ${(3 + Math.random() * 5).toFixed(2)}s`,
-      `opacity: ${(0.2 + Math.random() * 0.5).toFixed(2)}`
-    ].join(';');
-    container.appendChild(p);
+  skip() {
+    clearInterval(this._t);
+    this.el.textContent = this._full;
+    this.done = true;
+    if (this.cursor) this.cursor.classList.add('hidden');
+    const cb = this._cb;
+    this._cb = null;
+    cb && cb();
   }
 }
 
-// Update bottom nav active state on scroll
-function initNavHighlight() {
-  const sections = document.querySelectorAll('.game-section');
-  const navItems = document.querySelectorAll('.bnav-item');
+// ── BATTLE ─────────────────────────────────────
 
-  const sectionMap = {
-    worldmap:             0,
-    'chapter-experience': 1,
-    'chapter-skills':     2,
-    'chapter-credentials':3
-  };
+class Battle {
+  constructor(zone) {
+    this.zone = zone;
+    this.boss = zone.boss;
+    this.enemyHp = 100;
+    this.playerHp = 100;
+    this.round = 0;
+    this.over = false;
+    this.locked = false;
+  }
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const id  = entry.target.id;
-      const idx = sectionMap[id];
-      if (idx == null) return;
-      navItems.forEach((item, i) => item.classList.toggle('bnav-active', i === idx));
+  attack(idx) {
+    if (this.over || this.locked) return;
+    this.locked = true;
+
+    const atk = this.boss.attacks[idx];
+    const dmg = 42 + Math.floor(Math.random() * 22); // 42–63 dmg
+    this.enemyHp = Math.max(0, this.enemyHp - dmg);
+    this.round++;
+
+    this._setButtonsDisabled(true);
+
+    // Dan lunges
+    const dan = document.getElementById('dan-battle');
+    dan && dan.classList.add('char-lunge');
+    setTimeout(() => dan && dan.classList.remove('char-lunge'), 450);
+
+    // Log the move
+    this._log(`Dan uses <strong>${atk.label}</strong>!<span class="log-detail">${atk.desc}</span>`);
+
+    // Update enemy HP bar
+    setTimeout(() => {
+      this._setHp('enemy-hp', this.enemyHp);
+
+      // Enemy hit animation
+      const sprite = document.getElementById('enemy-sprite');
+      sprite && sprite.classList.add('enemy-hit');
+      setTimeout(() => sprite && sprite.classList.remove('enemy-hit'), 400);
+
+      if (this.enemyHp <= 0) {
+        // Victory
+        this.over = true;
+        setTimeout(() => {
+          this._log(`<span class="log-win">✓ ${this.boss.winText}</span>`);
+          // Replace attack buttons with claim button
+          const actionsEl = document.getElementById('battle-actions');
+          if (actionsEl) {
+            actionsEl.innerHTML = '<button class="btn-victory" onclick="GAME.showReward()">🏆 CLAIM REWARD →</button>';
+          }
+        }, 900);
+      } else {
+        // Enemy counterattack (flavor only — Dan always wins)
+        setTimeout(() => {
+          const cDmg = 6 + Math.floor(Math.random() * 8);
+          this.playerHp = Math.max(68, this.playerHp - cDmg);
+          this._setHp('player-hp', this.playerHp);
+          this._log(`<em>${this.boss.name}</em> retaliates! Dan's experience absorbs the blow. (−${cDmg} HP)`);
+
+          setTimeout(() => {
+            this.locked = false;
+            this._setButtonsDisabled(false);
+          }, 600);
+        }, 1100);
+      }
+    }, 300);
+  }
+
+  _setHp(id, pct) {
+    const el = document.getElementById(id);
+    if (el) el.style.width = pct + '%';
+  }
+
+  _log(html) {
+    const el = document.getElementById('battle-log-text');
+    if (el) el.innerHTML = html;
+  }
+
+  _setButtonsDisabled(disabled) {
+    document.querySelectorAll('.battle-atk-btn').forEach(b => {
+      b.disabled = disabled;
     });
-  }, { threshold: 0.4 });
-
-  sections.forEach(el => io.observe(el));
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  spawnParticles();
-  initObserver();
-  initNavHighlight();
-  restoreButtons();
-  updateHUD();
+// ── GAME STATE MACHINE ─────────────────────────
 
-  // If the user has played before, show HUD immediately
-  if (state.completed.length > 0) {
-    const titleEl = document.getElementById('screen-title');
-    const hudEl   = document.getElementById('game-hud');
-    titleEl.style.display = 'none';
-    hudEl.classList.add('hud-visible');
+const GAME = {
+  scene: null,
+  zone: null,
+  completedZones: [],
+  narrationIdx: 0,
+  dialogueIdx: 0,
+  narrationTW: null,
+  dialogueTW: null,
+  battle: null,
+
+  init() {
+    this._loadState();
+    this._renderCharStats();
+    this._renderZoneGrid();
+
+    document.getElementById('btn-start').onclick = () => this.startGame();
+
+    // Start on title
+    this.go('title');
+  },
+
+  go(sceneId) {
+    // Deactivate all
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+
+    const el = document.getElementById('scene-' + sceneId);
+    if (!el) return;
+    el.classList.add('active');
+    this.scene = sceneId;
+
+    // Per-scene setup
+    if (sceneId === 'character') this._animateStats();
+    if (sceneId === 'worldmap')  this._updateWorldMap();
+  },
+
+  // ── INTRO ──
+  startGame() {
+    this.narrationIdx = 0;
+    this.narrationTW = new Typewriter(
+      document.getElementById('narration-text'),
+      document.getElementById('narration-cursor')
+    );
+    this.go('intro');
+    this._showNarrationLine(0);
+  },
+
+  _showNarrationLine(i) {
+    document.getElementById('narration-prog').textContent = `${i + 1} / ${INTRO_LINES.length}`;
+    this.narrationTW.write(INTRO_LINES[i]);
+  },
+
+  advanceNarration() {
+    if (!this.narrationTW.done) { this.narrationTW.skip(); return; }
+    this.narrationIdx++;
+    if (this.narrationIdx >= INTRO_LINES.length) { this.go('character'); return; }
+    this._showNarrationLine(this.narrationIdx);
+  },
+
+  // ── ZONE ENTRY ──
+  enterZone(zoneId) {
+    this.zone = ZONES.find(z => z.id === zoneId);
+    if (!this.zone) return;
+
+    const z = this.zone;
+    document.getElementById('zi-chapter').textContent = `CHAPTER ${z.chapterNum}`;
+    document.getElementById('zi-name').textContent    = z.name;
+    document.getElementById('zi-era').textContent     = z.era;
+    document.getElementById('zi-sub').textContent     = z.sub;
+    document.getElementById('zi-bg').className        = `scene-bg ${z.bgClass}`;
+    this.go('zone-intro');
+  },
+
+  // ── DIALOGUE ──
+  startDialogue() {
+    const z = this.zone;
+    this.dialogueIdx = 0;
+    this.dialogueTW = new Typewriter(
+      document.getElementById('dialogue-text'),
+      document.getElementById('dialogue-cursor')
+    );
+
+    document.getElementById('zd-bg').className          = `scene-bg ${z.bgClass}`;
+    document.getElementById('dialogue-spk').textContent = z.npcName;
+    document.getElementById('npc-nametag').textContent  = z.npcName;
+
+    const torso = document.getElementById('npc-torso');
+    if (torso) torso.style.background = z.npcColor;
+
+    this.go('zone-dialogue');
+    this._showDialogueLine(0);
+  },
+
+  _showDialogueLine(i) {
+    const z = this.zone;
+    document.getElementById('dialogue-ctr').textContent = `${i + 1}/${z.dialogue.length}`;
+    this.dialogueTW.write(z.dialogue[i]);
+  },
+
+  advanceDialogue() {
+    if (!this.dialogueTW.done) { this.dialogueTW.skip(); return; }
+    this.dialogueIdx++;
+    if (this.dialogueIdx >= this.zone.dialogue.length) {
+      this._startBattle(); return;
+    }
+    this._showDialogueLine(this.dialogueIdx);
+  },
+
+  // ── BATTLE ──
+  _startBattle() {
+    const z = this.zone;
+    const boss = z.boss;
+    this.battle = new Battle(z);
+
+    document.getElementById('enemy-name').textContent    = boss.name;
+    document.getElementById('enemy-sprite').textContent  = boss.sprite;
+    document.getElementById('enemy-sub').textContent     = boss.sub;
+    document.getElementById('battle-bg').className       = `scene-bg ${z.bgClass}`;
+    document.getElementById('enemy-hp').style.width      = '100%';
+    document.getElementById('player-hp').style.width     = '100%';
+    document.getElementById('battle-log-text').innerHTML = '⚔ What will Dan do?';
+
+    const actionsEl = document.getElementById('battle-actions');
+    actionsEl.innerHTML = boss.attacks.map((a, i) =>
+      `<button class="battle-atk-btn" onclick="GAME.attack(${i})">${a.label}</button>`
+    ).join('');
+
+    this.go('battle');
+  },
+
+  attack(i) {
+    this.battle && this.battle.attack(i);
+  },
+
+  // ── REWARD ──
+  showReward() {
+    const z = this.zone;
+    const r = z.reward;
+
+    document.getElementById('reward-zone').textContent = z.name + ' CLEARED!';
+    document.getElementById('reward-icon').textContent = r.icon;
+    document.getElementById('reward-type').textContent = r.type;
+    document.getElementById('reward-name').textContent = r.name;
+    document.getElementById('reward-desc').textContent = r.desc;
+
+    if (!this.completedZones.includes(z.id)) {
+      this.completedZones.push(z.id);
+      this._saveState();
+    }
+
+    this.go('reward');
+  },
+
+  returnToMap() {
+    this.go('worldmap');
+  },
+
+  // ── WORLD MAP ──
+  _updateWorldMap() {
+    const done  = this.completedZones.length;
+    const total = ZONES.length;
+
+    document.getElementById('wm-prog-label').textContent = `${done} / ${total} ZONES`;
+    document.getElementById('wm-prog-fill').style.width  = (done / total * 100) + '%';
+
+    ZONES.forEach(z => {
+      const node = document.getElementById('zone-node-' + z.id);
+      if (node) node.classList.toggle('zone-complete', this.completedZones.includes(z.id));
+    });
+
+    const btn = document.getElementById('btn-finale');
+    if (btn) btn.classList.toggle('show', done >= total);
+  },
+
+  // ── CHARACTER STATS ──
+  _renderCharStats() {
+    const el = document.getElementById('cs-stats');
+    if (!el) return;
+    el.innerHTML = CHAR_STATS.map(s => `
+      <div class="stat-row">
+        <span class="stat-name">${s.name}</span>
+        <div class="stat-bar">
+          <div class="stat-fill"
+               style="background:${s.color}; --delay:${s.delay}s"
+               data-target="${s.val}">
+          </div>
+        </div>
+        <span class="stat-val">${s.val}</span>
+      </div>`).join('');
+  },
+
+  _animateStats() {
+    setTimeout(() => {
+      document.querySelectorAll('.stat-fill').forEach(f => {
+        f.style.width = f.dataset.target + '%';
+      });
+    }, 120);
+  },
+
+  // ── ZONE GRID ──
+  _renderZoneGrid() {
+    const el = document.getElementById('zone-grid');
+    if (!el) return;
+    el.innerHTML = ZONES.map(z => `
+      <button class="zone-node" id="zone-node-${z.id}"
+              onclick="GAME.enterZone('${z.id}')"
+              aria-label="Enter ${z.name}, ${z.era}">
+        <div class="zone-node-inner ${z.bgClass}">
+          <span class="zone-node-chapter">CHAPTER ${z.chapterNum}</span>
+          <span class="zone-node-name">${z.name}</span>
+          <span class="zone-node-era">${z.era}</span>
+          <span class="zone-complete-badge" aria-hidden="true">✓ CLEARED</span>
+        </div>
+      </button>`).join('');
+  },
+
+  // ── PERSISTENCE ──
+  _saveState() {
+    try { localStorage.setItem('pq3', JSON.stringify({ c: this.completedZones })); } catch {}
+  },
+
+  _loadState() {
+    try {
+      const s = JSON.parse(localStorage.getItem('pq3') || '{}');
+      this.completedZones = Array.isArray(s.c) ? s.c : [];
+    } catch { this.completedZones = []; }
   }
-});
+};
+
+// ── BOOT ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => GAME.init());
