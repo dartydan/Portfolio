@@ -231,16 +231,18 @@
         ease: "back.out(2)",
         scrollTrigger: { trigger: figure, start: "top 70%" },
       });
-      gsap.to(figure, {
-        y: -50,
-        ease: "none",
-        scrollTrigger: {
-          trigger: figure,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
+      if (window.matchMedia("(min-width: 721px)").matches) {
+        gsap.to(figure, {
+          y: -50,
+          ease: "none",
+          scrollTrigger: {
+            trigger: figure,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
       if (isFinePointer) {
         figure.addEventListener("mousemove", (e) => {
           const r = figure.getBoundingClientRect();

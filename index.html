@@ -141,7 +141,10 @@
         <div class="about-figure" id="aboutFigure" aria-label="Illustrated portrait of Dan Morency">
           <span class="about-figure-ring" aria-hidden="true"></span>
           <span class="about-figure-disc" aria-hidden="true"></span>
-          <img class="about-avatar" src="assets/dan-avatar.png" alt="Illustration of Dan Morency in a grey suit, laptop under one arm" width="386" height="1101" loading="lazy" />
+          <picture>
+            <source media="(max-width: 720px)" srcset="assets/dan-avatar-bust.png" width="386" height="682" />
+            <img class="about-avatar" src="assets/dan-avatar.png" alt="Illustration of Dan Morency in a grey suit, laptop under one arm" width="386" height="1101" loading="lazy" />
+          </picture>
           <span class="about-badge" aria-hidden="true">
             <svg viewBox="0 0 120 120">
               <defs>

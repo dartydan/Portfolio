@@ -705,6 +705,20 @@ img, svg, canvas { display: block; max-width: 100%; }
   .numbers-grid { grid-template-columns: 1fr; }
   .exp-card { border-radius: 16px; }
   .contact-arrow { margin-top: 0.2rem; }
+
+  .section { padding-block: 4.5rem; }
+
+  /* about figure becomes a compact portrait medallion */
+  .about { padding-bottom: 3.5rem; }
+  .about-figure { margin-top: 1.5rem; }
+  .about-avatar {
+    height: min(330px, 88vw);
+    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 97%);
+    mask-image: linear-gradient(to bottom, #000 72%, transparent 97%);
+  }
+  .about-figure-ring { width: min(82vw, 310px); bottom: -4%; }
+  .about-figure-disc { width: min(72vw, 270px); bottom: 0; }
+  .about-badge { right: 2%; bottom: -6%; width: 92px; }
 }
 
 /* ---------- reduced motion ---------- */
