@@ -20,7 +20,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
@@ -507,7 +507,7 @@ img, svg, canvas { display: block; max-width: 100%; }
 .about-text .w { opacity: 0.14; display: inline-block; }
 .about-meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 2rem;
   max-width: 56rem;
   margin-top: clamp(2.5rem, 6vh, 4rem);
@@ -710,15 +710,15 @@ img, svg, canvas { display: block; max-width: 100%; }
 
   /* about figure becomes a compact portrait medallion */
   .about { padding-bottom: 3.5rem; }
-  .about-figure { margin-top: 1.5rem; }
+  .about-figure { margin-top: 1.5rem; contain: paint; }
   .about-avatar {
     height: min(330px, 88vw);
     -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 97%);
     mask-image: linear-gradient(to bottom, #000 72%, transparent 97%);
   }
-  .about-figure-ring { width: min(82vw, 310px); bottom: -4%; }
+  .about-figure-ring { width: min(82vw, 310px); bottom: 0; }
   .about-figure-disc { width: min(72vw, 270px); bottom: 0; }
-  .about-badge { right: 2%; bottom: -6%; width: 92px; }
+  .about-badge { right: 2%; bottom: 2%; width: 92px; }
 }
 
 /* ---------- reduced motion ---------- */
