@@ -8,329 +8,320 @@
   <meta property="og:description" content="Turning complex digital systems into strategic advantage. Enterprise web, UX, accessibility, budgets, and AI-enabled workflows." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://morency.dev" />
-  <meta name="theme-color" content="#0c0c0d" />
+  <meta name="theme-color" content="#202124" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260611" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" />
+  <link rel="stylesheet" href="style.css?v=20260612-doodle" />
   <title>Dan Morency — Digital Operations & Business Leadership</title>
 </head>
 <body>
 
   <!-- Preloader -->
   <div class="preloader" id="preloader" aria-hidden="true">
-    <div class="preloader-inner">
-      <span class="preloader-name">DM</span>
+    <div class="preloader-card">
+      <span class="preloader-logo">DM</span>
       <span class="preloader-count" id="preloaderCount">0</span>
     </div>
   </div>
 
-  <!-- Grain overlay -->
-  <div class="grain" aria-hidden="true"></div>
-
-  <!-- Custom cursor -->
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
-
   <!-- Nav -->
   <header class="nav" id="nav">
-    <a class="nav-logo" href="#top" aria-label="Dan Morency — home">DM<sup>©</sup></a>
+    <a class="nav-brand" href="#top" aria-label="Dan Morency — home">
+      <span class="nav-logo">DM</span>
+      <strong>Dan Morency</strong>
+    </a>
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="#about" data-hover>About</a>
-      <a href="#numbers" data-hover>Numbers</a>
-      <a href="#experience" data-hover>Experience</a>
-      <a href="#capabilities" data-hover>Capabilities</a>
-      <a href="#contact" data-hover>Contact</a>
+      <a href="#story">Story</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#experience">Experience</a>
+      <a href="#capabilities">Capabilities</a>
     </nav>
-    <a class="nav-cta" href="assets/Dan-Morency-Resume.pdf" download data-hover>Resume</a>
+    <div class="nav-actions">
+      <a class="nav-login" href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a class="btn btn-paper btn-small" href="#contact">Let's Talk</a>
+    </div>
     <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-      <span></span><span></span>
+      <span></span><span></span><span></span>
     </button>
   </header>
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <nav aria-label="Mobile navigation">
-      <a href="#about"><small>01</small>About</a>
-      <a href="#numbers"><small>02</small>Numbers</a>
-      <a href="#experience"><small>03</small>Experience</a>
-      <a href="#capabilities"><small>04</small>Capabilities</a>
-      <a href="#contact"><small>05</small>Contact</a>
+      <a href="#story">Story</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#experience">Experience</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#contact">Contact</a>
     </nav>
     <div class="mobile-menu-foot">
-      <a href="assets/Dan-Morency-Resume.pdf" download>Resume PDF</a>
-      <a href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer">LinkedIn</a>
-      <a href="mailto:danmorency@gmail.com">Email</a>
+      <a class="btn btn-paper" href="assets/Dan-Morency-Resume.pdf" download>Download Résumé</a>
+      <a class="btn btn-line" href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer">LinkedIn</a>
     </div>
   </div>
 
   <main id="top">
 
-    <!-- ============ HERO ============ -->
-    <section class="hero" id="hero" aria-labelledby="hero-title">
-      <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
-      <div class="hero-content">
-        <p class="hero-eyebrow reveal-up">
-          <span class="dot" aria-hidden="true"></span>
-          Business Leadership · Digital Operations · Enterprise Web
-        </p>
-        <h1 class="hero-title" id="hero-title" aria-label="Dan Morency">
-          <span class="hero-line"><span class="hero-word" data-split>DAN</span></span>
-          <span class="hero-line hero-line-indent"><span class="hero-word" data-split>MORENCY</span></span>
-        </h1>
-        <div class="hero-sub">
-          <p class="hero-lead reveal-up">
-            I turn complex digital systems into strategic advantage —
-            connecting technology, UX, budgets, people, and AI-enabled
-            workflows so organizations move faster with better outcomes.
-          </p>
-          <div class="hero-actions reveal-up">
-            <a class="btn btn-primary magnetic" href="#contact" data-hover>Let's talk</a>
-            <a class="btn btn-ghost magnetic" href="assets/Dan-Morency-Resume.pdf" download data-hover>Download résumé</a>
-          </div>
-        </div>
-      </div>
-      <div class="hero-foot">
-        <span class="hero-scroll" aria-hidden="true">Scroll<span class="hero-scroll-line"></span></span>
-        <span class="hero-loc">Indiana, USA — morency.dev</span>
-      </div>
-    </section>
+    <!-- ============ HERO: sketchbook playground ============ -->
+    <section class="hero" id="heroSection" aria-labelledby="hero-title">
+      <canvas id="waveCanvas" aria-hidden="true"></canvas>
+      <canvas id="scribbleCanvas" aria-hidden="true"></canvas>
 
-    <!-- ============ MARQUEE ============ -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        <span>Digital Transformation</span><i>✦</i>
-        <span>Enterprise Web Operations</span><i>✦</i>
-        <span>UX &amp; Accessibility</span><i>✦</i>
-        <span>AI-Enabled Workflows</span><i>✦</i>
-        <span>Budget Stewardship</span><i>✦</i>
-        <span>Digital Transformation</span><i>✦</i>
-        <span>Enterprise Web Operations</span><i>✦</i>
-        <span>UX &amp; Accessibility</span><i>✦</i>
-        <span>AI-Enabled Workflows</span><i>✦</i>
-        <span>Budget Stewardship</span><i>✦</i>
+      <div class="hero-stickers" aria-hidden="true">
+        <span class="sticker" style="left:7%;  top:16%; --r:-7deg;">SEO</span>
+        <span class="sticker" style="left:16%; top:58%; --r:5deg;">UX</span>
+        <span class="sticker sticker-blue" style="left:84%; top:20%; --r:6deg;">AI</span>
+        <span class="sticker sticker-yellow" id="stickerMoney" style="left:78%; top:55%; --r:-5deg;">$31M</span>
+        <span class="sticker sticker-pink hide-mobile" style="left:26%; top:24%; --r:3deg;">WCAG</span>
+        <span class="sticker hide-mobile" style="left:68%; top:34%; --r:-4deg;">30K pages</span>
+        <span class="sticker sticker-doodle hide-mobile" style="left:90%; top:42%; --r:8deg;">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.9 7.3.2-5.8 4.4 2 7-6-4.2-6 4.2 2-7L2.3 9.1l7.3-.2z" fill="currentColor"/></svg>
+        </span>
+        <span class="sticker sticker-doodle" style="left:5%; top:40%; --r:-10deg;">
+          <svg viewBox="0 0 24 24"><path d="M13 2 L5 14 h6 l-1 8 8-12 h-6z" fill="currentColor"/></svg>
+        </span>
       </div>
-    </div>
 
-    <!-- ============ ABOUT ============ -->
-    <section class="about section" id="about" aria-labelledby="about-heading">
-      <div class="section-head">
-        <span class="section-index">01</span>
-        <span class="section-label">The through-line</span>
-      </div>
-      <div class="about-grid">
-        <div class="about-content">
-          <h2 class="about-text" id="about-heading" data-words>
-            My career began in the details that make digital systems work —
-            search, content, advertising, user behavior. It grew into building
-            departments, aligning stakeholders, and governing the web at
-            enterprise scale. Today it points at one thing: helping organizations
-            use technology, people, and AI with clarity and discipline.
-          </h2>
-          <div class="about-meta">
-            <div class="about-meta-item reveal-up">
-              <strong>The pattern</strong>
-              <p>Clarify the system. Align the people. Improve the outcome. It shows up in every role I've held.</p>
-            </div>
-            <div class="about-meta-item reveal-up">
-              <strong>The edge</strong>
-              <p>Strategy grounded in execution — I've run the campaigns, built the dashboards, and shipped the pages myself.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="about-figure" id="aboutFigure" aria-label="Illustrated portrait of Dan Morency">
-          <span class="about-figure-ring" aria-hidden="true"></span>
-          <span class="about-figure-disc" aria-hidden="true"></span>
-          <picture>
-            <source media="(max-width: 720px)" srcset="assets/dan-avatar-bust.png" width="386" height="682" />
-            <img class="about-avatar" src="assets/dan-avatar.png" alt="Illustration of Dan Morency in a grey suit, laptop under one arm" width="386" height="1101" loading="lazy" />
-          </picture>
-          <span class="about-badge" aria-hidden="true">
-            <svg viewBox="0 0 120 120">
-              <defs>
-                <path id="badgeCircle" d="M 60,60 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0" />
-              </defs>
-              <circle cx="60" cy="60" r="58" class="about-badge-bg" />
-              <text class="about-badge-text">
-                <textPath href="#badgeCircle">OPEN TO LEADERSHIP ROLES ✦ LET'S TALK ✦&#160;</textPath>
-              </text>
-              <path d="M53 60 H67 M61 54 L67 60 L61 66" class="about-badge-arrow" />
-            </svg>
+      <div class="hero-core">
+        <p class="hero-eyebrow" data-reveal>Business Leadership · Digital Operations · Enterprise Web</p>
+        <h1 class="hero-title" id="hero-title" data-reveal aria-label="Turn complex digital systems into strategic advantage">
+          <span class="jiggle" data-jiggle aria-hidden="true">Turn Complex Digital Systems</span><br />
+          <span aria-hidden="true">Into&nbsp;</span><span class="underline-wrap" aria-hidden="true">
+            <span class="swap-stack" id="swapStack">
+              <span class="swap-word is-active">Strategic Advantage</span>
+              <span class="swap-word">Working Systems</span>
+              <span class="swap-word">Real Growth</span>
+              <span class="swap-word">Faster Teams</span>
+            </span>
+            <svg class="underline-svg" viewBox="0 0 320 18" preserveAspectRatio="none"><path id="underlinePath" d="M4 12 C 60 4, 120 16, 180 9 S 290 6, 316 11" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
           </span>
+        </h1>
+        <p class="hero-sub" data-reveal>
+          I connect technology, UX, budgets, people, and AI-enabled workflows
+          so organizations move faster with clearer systems and better outcomes.
+        </p>
+        <div class="hero-actions" data-reveal>
+          <a class="btn btn-paper" href="#contact" id="ctaTalk">Let's Talk</a>
+          <a class="btn btn-line" href="assets/Dan-Morency-Resume.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download Résumé
+          </a>
+        </div>
+      </div>
+
+      <figure class="hero-card" id="heroCard">
+        <span class="hero-bubble" id="heroBubble" aria-hidden="true">Hi, I'm Dan! 👋</span>
+        <span class="annotation hero-card-note" aria-hidden="true">click me!
+          <svg viewBox="0 0 60 40"><path d="M54 6 C 38 10, 24 14, 12 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M20 28 L 11 32 L 14 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <img src="assets/dan-avatar-bust.png" alt="Illustration of Dan Morency in a grey suit" width="386" height="682" />
+        <figcaption>
+          <strong>Dan Morency</strong>
+          <span>Digital Operations & Web Strategy</span>
+        </figcaption>
+      </figure>
+
+      <p class="hero-hint annotation" aria-hidden="true">go ahead — drag the stickers · scroll for the story ↓</p>
+    </section>
+
+    <hr class="sketch-line" aria-hidden="true" />
+
+    <!-- ============ TRUSTED ============ -->
+    <section class="trusted" aria-label="Organizations">
+      <p>From scrappy startups to a 30,000-page university ecosystem</p>
+      <div class="trusted-row">
+        <span>Ball State University</span>
+        <span>Acculevel</span>
+        <span>Glitch Energy</span>
+        <span>Slingshot SEO</span>
+        <span>PayK12</span>
+      </div>
+    </section>
+
+    <hr class="sketch-line" aria-hidden="true" />
+
+    <!-- ============ STORY ============ -->
+    <section class="story section" id="story" aria-labelledby="story-heading">
+      <h2 data-reveal id="story-heading">Why the Through-Line Matters</h2>
+      <p class="section-sub" data-reveal>
+        The same pattern shows up in every role: clarify the system,
+        align the people, improve the outcome.
+      </p>
+      <div class="story-frame doodle-frame" data-reveal>
+        <div class="story-grid">
+          <div class="story-text">
+            <p>
+              My career began in the details that make digital systems work —
+              search, content, advertising, user behavior. It grew into building
+              departments, aligning stakeholders, and governing the web at
+              enterprise scale.
+            </p>
+            <p>
+              Today it points at one thing: <strong>helping organizations use
+              technology, people, and AI with clarity and discipline.</strong>
+            </p>
+            <a class="btn btn-paper" href="#experience">See the Proof</a>
+          </div>
+          <div class="story-figure">
+            <img src="assets/dan-avatar.png" alt="Full-length illustration of Dan Morency holding a laptop" width="386" height="1101" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row" id="numbers" aria-label="Key numbers">
+        <div class="stat" data-reveal>
+          <strong><span data-count="30000" data-format="comma">0</span>+</strong>
+          <span>pages governed</span>
+        </div>
+        <div class="stat" data-reveal>
+          <strong>$<span data-count="31">0</span>M</strong>
+          <span>revenue, up from $11M</span>
+        </div>
+        <div class="stat" data-reveal>
+          <strong><span data-count="200">0</span>+</strong>
+          <span>editors enabled</span>
+        </div>
+        <div class="stat" data-reveal>
+          <strong>&lt;<span data-count="90">0</span></strong>
+          <span>days to WCAG compliance</span>
         </div>
       </div>
     </section>
 
-    <!-- ============ NUMBERS ============ -->
-    <section class="numbers section" id="numbers" aria-labelledby="numbers-heading">
-      <div class="section-head">
-        <span class="section-index">02</span>
-        <span class="section-label" id="numbers-heading">Proof, in numbers</span>
-      </div>
-      <div class="numbers-grid">
-        <div class="number-card reveal-up">
-          <span class="number-value"><span data-count="30000" data-format="comma">0</span>+</span>
-          <p>web pages governed across an enterprise university ecosystem</p>
-        </div>
-        <div class="number-card reveal-up">
-          <span class="number-value">$<span data-count="31">0</span>M</span>
-          <p>annual revenue — up from $11M in 10 months of coordinated digital operations</p>
-        </div>
-        <div class="number-card reveal-up">
-          <span class="number-value"><span data-count="200">0</span>+</span>
-          <p>distributed web editors trained, supported, and enabled</p>
-        </div>
-        <div class="number-card reveal-up">
-          <span class="number-value">&lt;<span data-count="90">0</span></span>
-          <p>days to bring enterprise web properties into WCAG accessibility compliance</p>
-        </div>
-      </div>
-    </section>
+    <hr class="sketch-line" aria-hidden="true" />
 
     <!-- ============ EXPERIENCE ============ -->
     <section class="experience section" id="experience" aria-labelledby="experience-heading">
-      <div class="section-head">
-        <span class="section-index">03</span>
-        <span class="section-label" id="experience-heading">Experience arc</span>
-      </div>
-
-      <div class="exp-stack">
-        <article class="exp-card">
-          <div class="exp-card-top">
-            <span class="exp-years">2008 — 2018</span>
-            <span class="exp-num">①</span>
+      <h2 data-reveal id="experience-heading">Each Chapter Added a Layer</h2>
+      <p class="section-sub" data-reveal>
+        From hands-on execution to enterprise leadership — every role
+        stacked new judgment on a working foundation.
+      </p>
+      <div class="exp-grid">
+        <article class="exp-card doodle-card" data-reveal>
+          <div class="exp-art art-yellow" aria-hidden="true">
+            <svg viewBox="0 0 200 110"><path d="M20 80 Q 50 20 80 70 T 140 60 T 185 40" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><circle cx="40" cy="35" r="6" fill="#fff"/><path d="M150 85 l8-14 8 14z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/></svg>
           </div>
           <h3>The Foundation</h3>
-          <p class="exp-role">SEO · Advertising · Digital Marketing</p>
-          <p class="exp-body">
-            Slingshot SEO, PayK12, The Sojourn, Ray Skillman Auto Group.
-            A decade learning how digital systems perform in the real world —
-            search, content, audiences, lead gen, budgets, and reporting.
-          </p>
-          <p class="exp-note">Strategy grounded in how users, platforms, and performance data actually behave.</p>
+          <p class="exp-years">2008 — 2018 · SEO, Ads & Digital Marketing</p>
+          <p>A decade learning how digital systems perform in the real world: search, content, audiences, budgets, and reporting.</p>
         </article>
 
-        <article class="exp-card">
-          <div class="exp-card-top">
-            <span class="exp-years">2018 — 2021</span>
-            <span class="exp-num">②</span>
+        <article class="exp-card doodle-card" data-reveal>
+          <div class="exp-art art-blue" aria-hidden="true">
+            <svg viewBox="0 0 200 110"><path d="M30 70 C 60 30, 90 95, 120 55 S 175 45 185 55" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M40 30 l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2z" fill="#fff"/></svg>
           </div>
           <h3>Glitch Energy</h3>
-          <p class="exp-role">VP of Marketing &amp; Communications</p>
-          <p class="exp-body">
-            Helped launch a brand from inception to revenue — building the
-            digital strategy, audience growth engine, and partnerships with
-            influencers, YouTube personalities, and NBA athletes.
-          </p>
-          <p class="exp-note">Added: brand building, partner management, and digital operations from zero.</p>
+          <p class="exp-years">2018 — 2021 · VP of Marketing & Comms</p>
+          <p>Built a brand from inception to revenue — growth engine, content ops, and partnerships with creators and NBA athletes.</p>
         </article>
 
-        <article class="exp-card">
-          <div class="exp-card-top">
-            <span class="exp-years">2021 — 2022</span>
-            <span class="exp-num">③</span>
+        <article class="exp-card doodle-card" data-reveal>
+          <div class="exp-art art-pink" aria-hidden="true">
+            <svg viewBox="0 0 200 110"><path d="M25 85 L 60 45 L 95 70 L 135 30 L 175 50" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M135 30 h25 v22" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <h3>Acculevel</h3>
-          <p class="exp-role">Director of Marketing</p>
-          <p class="exp-body">
-            Managed $3M+ in annual ad spend, brought advertising in-house, and
-            built the business analytics function from scratch — Salesforce and
-            Tableau reporting that helped revenue grow from $11M to $31M.
-          </p>
-          <p class="exp-note">Added: department building, budget stewardship, and execution at growth speed.</p>
+          <p class="exp-years">2021 — 2022 · Director of Marketing</p>
+          <p>$3M+ ad budget in-house, analytics built from scratch — and revenue grew from $11M to $31M in ten months.</p>
         </article>
 
-        <article class="exp-card exp-card-current">
-          <div class="exp-card-top">
-            <span class="exp-years">2022 — Now</span>
-            <span class="exp-num">④</span>
+        <article class="exp-card doodle-card exp-current" data-reveal>
+          <span class="annotation annotation-card" aria-hidden="true">currently here ★</span>
+          <div class="exp-art art-blush" aria-hidden="true">
+            <svg viewBox="0 0 200 110"><rect x="30" y="30" width="60" height="44" rx="6" fill="none" stroke="#fff" stroke-width="5"/><path d="M105 40 h60 M105 55 h60 M105 70 h40" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M38 80 q 62 18 124 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
           </div>
           <h3>Ball State University</h3>
-          <p class="exp-role">University Web &amp; Digital Marketing Strategist</p>
-          <p class="exp-body">
-            Lead enterprise web operations across 30,000+ pages and 200+
-            editors. Directed a university-wide WCAG accessibility initiative
-            completed in under three months. Redesigned the People &amp; Culture
-            site — hundreds of pages — solo, in five.
-          </p>
-          <p class="exp-note">Adding now: enterprise governance, digital transformation, and practical AI adoption.</p>
+          <p class="exp-years">2022 — Now · Web & Digital Strategist</p>
+          <p>Enterprise web operations across 30,000+ pages and 200+ editors. University-wide WCAG compliance in under 90 days.</p>
         </article>
       </div>
     </section>
+
+    <hr class="sketch-line" aria-hidden="true" />
 
     <!-- ============ CAPABILITIES ============ -->
     <section class="capabilities section" id="capabilities" aria-labelledby="capabilities-heading">
-      <div class="section-head">
-        <span class="section-index">04</span>
-        <span class="section-label" id="capabilities-heading">What I bring</span>
+      <h2 data-reveal id="capabilities-heading">All of It in One Operator</h2>
+      <p class="section-sub" data-reveal>
+        Strategy, operations, and financial judgment — connected instead of
+        scattered across five hires.
+      </p>
+
+      <div class="tabs" role="tablist" aria-label="Capabilities" data-reveal>
+        <button class="tab btn-paper is-active" role="tab" aria-selected="true" aria-controls="cap-panel" id="tab-0" data-tab="0">Web Operations</button>
+        <button class="tab btn-paper" role="tab" aria-selected="false" aria-controls="cap-panel" id="tab-1" data-tab="1">AI Workflows</button>
+        <button class="tab btn-paper" role="tab" aria-selected="false" aria-controls="cap-panel" id="tab-2" data-tab="2">Growth & Budgets</button>
+        <button class="tab btn-paper" role="tab" aria-selected="false" aria-controls="cap-panel" id="tab-3" data-tab="3">UX & Accessibility</button>
       </div>
-      <ul class="cap-list">
-        <li class="cap-row" data-hover>
-          <span class="cap-i">01</span>
-          <h3>Translate ambiguity into operating structure</h3>
-          <p>Scattered requests, budgets, and stakeholder needs become systems teams can actually execute.</p>
-        </li>
-        <li class="cap-row" data-hover>
-          <span class="cap-i">02</span>
-          <h3>Connect strategy, operations &amp; financial judgment</h3>
-          <p>Growth goals balanced against resources, vendors, and capacity — digital work that serves the business model.</p>
-        </li>
-        <li class="cap-row" data-hover>
-          <span class="cap-i">03</span>
-          <h3>Improve digital experience at enterprise scale</h3>
-          <p>UX, accessibility, governance, SEO, and analytics connected into better user and business outcomes.</p>
-        </li>
-        <li class="cap-row" data-hover>
-          <span class="cap-i">04</span>
-          <h3>Use AI as practical operational leverage</h3>
-          <p>AI-assisted workflows that improve speed, QA, and reporting — without losing strategic or financial judgment.</p>
-        </li>
-      </ul>
+
+      <div class="cap-frame doodle-frame" data-reveal>
+        <div class="cap-panel" id="cap-panel" role="tabpanel" aria-labelledby="tab-0">
+          <h3 id="capTitle">Enterprise Web Operations</h3>
+          <p id="capBody">
+            Governance, CMS adoption, intake, prioritization, and delivery
+            workflows for 30,000+ pages and 200+ distributed editors —
+            translated from chaos into systems teams can actually run.
+          </p>
+          <ul class="cap-list" id="capList">
+            <li>Web governance & digital standards</li>
+            <li>Agile intake & high-volume delivery</li>
+            <li>Stakeholder training & enablement</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- ============ CREDENTIALS MARQUEE ============ -->
-    <div class="marquee marquee-alt" aria-label="Certifications">
-      <div class="marquee-track marquee-track-reverse">
-        <span>Google AI Certified</span><i>✦</i>
-        <span>Google UX Design</span><i>✦</i>
-        <span>MBA coursework — Ball State</span><i>✦</i>
-        <span>BA Marketing</span><i>✦</i>
-        <span>BA Business Administration</span><i>✦</i>
-        <span>Google &amp; Meta Ads Certified</span><i>✦</i>
-        <span>Google AI Certified</span><i>✦</i>
-        <span>Google UX Design</span><i>✦</i>
-        <span>MBA coursework — Ball State</span><i>✦</i>
-        <span>BA Marketing</span><i>✦</i>
-        <span>BA Business Administration</span><i>✦</i>
-        <span>Google &amp; Meta Ads Certified</span><i>✦</i>
+    <hr class="sketch-line" aria-hidden="true" />
+
+    <!-- ============ CREDENTIALS ============ -->
+    <section class="creds section" aria-labelledby="creds-heading">
+      <h2 data-reveal id="creds-heading">Credentials, Stacked</h2>
+      <div class="creds-row" data-reveal>
+        <span class="cred-chip">Google AI Certified</span>
+        <span class="cred-chip">Google UX Design</span>
+        <span class="cred-chip">MBA Coursework — Ball State</span>
+        <span class="cred-chip">BA Marketing</span>
+        <span class="cred-chip">BA Business Administration</span>
+        <span class="cred-chip">Google & Meta Ads Certified</span>
       </div>
-    </div>
+    </section>
+
+    <hr class="sketch-line" aria-hidden="true" />
 
     <!-- ============ CONTACT ============ -->
-    <footer class="contact section" id="contact" aria-labelledby="contact-heading">
-      <p class="contact-eyebrow reveal-up">Open to roles where digital strategy meets business leadership</p>
-      <h2 class="contact-title" id="contact-heading">
-        <a href="mailto:danmorency@gmail.com" class="contact-link magnetic" data-hover>
-          <span class="hero-word" data-split>LET'S TALK</span>
-          <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </h2>
-      <div class="contact-foot">
-        <span>© 2026 Dan Morency</span>
-        <div class="contact-links">
-          <a href="mailto:danmorency@gmail.com" data-hover>danmorency@gmail.com</a>
-          <a href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer" data-hover>LinkedIn</a>
-          <a href="assets/Dan-Morency-Resume.pdf" download data-hover>Resume PDF</a>
+    <section class="contact section" id="contact" aria-labelledby="contact-heading">
+      <div class="contact-frame doodle-frame" data-reveal>
+        <h2 id="contact-heading">Let's Build Something That Works</h2>
+        <p>
+          Open to roles where business leadership, digital strategy,
+          and AI-enabled operations create real organizational impact.
+        </p>
+        <div class="contact-actions">
+          <a class="btn btn-paper" href="mailto:danmorency@gmail.com">danmorency@gmail.com</a>
+          <a class="btn btn-line" href="assets/Dan-Morency-Resume.pdf" download>Résumé PDF</a>
         </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 Dan Morency · morency.dev</span>
+      <div class="footer-links">
+        <a href="mailto:danmorency@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/danmorency" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="assets/Dan-Morency-Resume.pdf" download>Résumé</a>
       </div>
     </footer>
 
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="script.js?v=20260611"></script>
+  <script src="script.js?v=20260612-playground"></script>
 </body>
 </html>
